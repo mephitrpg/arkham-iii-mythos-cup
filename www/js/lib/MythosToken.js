@@ -1,6 +1,5 @@
 class MythosToken {
     constructor(data) {
-        console.log(data);
         this.data = data;
         data.slug = {};
         Object.keys(data.name).forEach(l => {

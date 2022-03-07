@@ -281,12 +281,29 @@ body {
 .cup-tokens {
     list-style: none;
     padding: 0;
+    line-height: 1em;
     display: flex;
     width: 100%;
     text-align: center;
+    font-size: 24px;
 }
 .cup-token {
     flex-grow: 1;
+    position: relative;
+}
+.cup-token .icon {
+    font-size: 36px;
+}
+.cup-token-badge {
+    position: absolute;
+    right: 0;
+    background-color: #8b5e3b;
+    border-radius: 50%;
+    font-size: 10px;
+    line-height: 18px;
+    font-weight: bold;
+    width: 18px;
+    margin-top: -18px;
 }
 .cup-token-tot {
 
@@ -299,20 +316,10 @@ body {
     border-width: 1px 1px 0 1px;
     background-color: #8b5e3b;
     font-size: 10px;
-    height: 1.6em;
+    line-height: 1.6em;
     color: #ffffff;
-}
-
-.cup-bar-inner {
-    background-color: #000000;
-    height: 1.6em;
-}
-
-.cup-bar-text {
-    position: absolute;
-    left: 0;
-    width: 100%;
     text-align: center;
+    background-position: 0px 0px;
 }
 
 /* CUP BUTTONS */

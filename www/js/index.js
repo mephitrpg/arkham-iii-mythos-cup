@@ -321,12 +321,11 @@ var app = {
             if (element.tagName.toLowerCase() === 'button') {
                 const index = element.getAttribute('data-index');
                 this.drawMythosToken(document.querySelector(`.investigator[data-index="${index}"]`));
+
             }
         });
         this.drawnElement             = document.getElementById('cup-tokens-drawn');
         this.cupBarElement            = document.getElementById('cup-bar');
-        this.cupBarInnerElement       = document.getElementById('cup-bar-inner');
-        this.cupBarTextElement        = document.getElementById('cup-bar-text');
 
         document.getElementById('new-turn-button').addEventListener('click', () => {
 
@@ -460,13 +459,25 @@ var app = {
                 const curr = this.mythosCup.filter(item => item.getId() === tokenId).length;
                 const tot = this.editableMythosCup.find(item => item.id === tokenId)?.quantity || 0;
                 const totElement = tokenElement.querySelector('.cup-token-tot');
-                totElement.innerHTML = `${curr}/${tot}`;
-                tokenElement.style.opacity = curr ? 1 : 0.5;
+                let dots = '';
+                if (curr) {
+                    for (let i = 0; i < tot; i++) dots += `<span style="opacity:${i < curr ? 1 : 0.5};">•</span>`;
+                    totElement.innerHTML = dots;
+                    tokenElement.style.opacity = 1;
+                } else {
+                    for (let i = 0; i < tot; i++) dots += `<span>•</span>`;
+                    totElement.innerHTML = dots;
+                    tokenElement.style.opacity = 0.5;
+                }
             });
             const total = this.editableMythosCup.reduce((result, item) => result + item.quantity, 0);
-            const current = this.mythosCup.length
-            this.cupBarInnerElement.style.width = `${100-current/total*100}%`;
-            this.cupBarTextElement.innerHTML = `${current} / ${total}`;
+            const current = this.mythosCup.length;
+            const perc = current / total * 100;
+            this.cupBarElement.style.cssText = (
+                `background-image: -webkit-linear-gradient(90deg, rgba(139,94,59,1) 0%, rgba(139,94,59,1) ${perc}%, rgba(0,0,0,1)  ${perc}%, rgba(0,0,0,1) 100%);` +
+                `background-image: linear-gradient(90deg, rgba(139,94,59,1) 0%, rgba(139,94,59,1)  ${perc}%, rgba(0,0,0,1)  ${perc}%, rgba(0,0,0,1) 100%);`
+            );
+            this.cupBarElement.innerHTML = `${current} / ${total}`;
         }
         this.investigatorsElement.innerHTML = investigatorsList;
     },
@@ -546,10 +557,14 @@ var app = {
     drawTokenFromMythosCup() {
         const tokenIndex = Math.floor(Math.random() * this.mythosCup.length);
         const [token] = this.mythosCup.splice(tokenIndex, 1);
+        this.addToOverallTokens(token);
         this.writeMythosCup();
         return token;
     },
 
+    addToOverallTokens(token) {
+        
+    },
 };
 
 app.initialize();
