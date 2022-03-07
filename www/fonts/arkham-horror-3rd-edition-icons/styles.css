@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "arkham-horror-3rd-edition-icons";
+  src:url("fonts/arkham-horror-3rd-edition-icons.eot");
+  src:url("fonts/arkham-horror-3rd-edition-icons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/arkham-horror-3rd-edition-icons.woff") format("woff"),
+    url("fonts/arkham-horror-3rd-edition-icons.ttf") format("truetype"),
+    url("fonts/arkham-horror-3rd-edition-icons.svg#arkham-horror-3rd-edition-icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "arkham-horror-3rd-edition-icons" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="ah3-"]:before,
+[class*=" ah3-"]:before {
+  font-family: "arkham-horror-3rd-edition-icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ah3-lore:before {
+  content: "\61";
+}
+.ah3-influence:before {
+  content: "\62";
+}
+.ah3-observation:before {
+  content: "\63";
+}
+.ah3-strength:before {
+  content: "\64";
+}
+.ah3-will:before {
+  content: "\65";
+}
+.ah3-common-item:before {
+  content: "\66";
+}
+.ah3-curio-item:before {
+  content: "\67";
+}
+.ah3-spell:before {
+  content: "\68";
+}
+.ah3-ally:before {
+  content: "\69";
+}
+.ah3-damage:before {
+  content: "\6a";
+}
+.ah3-horror:before {
+  content: "\6b";
+}
+.ah3-money:before {
+  content: "\6c";
+}
+.ah3-remnant:before {
+  content: "\6d";
+}
+.ah3-remove-doom:before {
+  content: "\6e";
+}
+.ah3-doom:before {
+  content: "\6f";
+}
+.ah3-clue:before {
+  content: "\70";
+}
+.ah3-monster:before {
+  content: "\71";
+}
+.ah3-headline:before {
+  content: "\72";
+}
+.ah3-gate-burst:before {
+  content: "\73";
+}
+.ah3-reckoning:before {
+  content: "\74";
+}
+.ah3-residential-street:before {
+  content: "\75";
+}
+.ah3-scenic-street:before {
+  content: "\76";
+}
+.ah3-bridge-street:before {
+  content: "\77";
+}
+.ah3-train-platform:before {
+  content: "\78";
+}
+.ah3-country-road:before {
+  content: "\79";
+}
+.ah3-ferry-terminal:before {
+  content: "\7a";
+}
+.ah3-move:before {
+  content: "\41";
+}
+.ah3-terror:before {
+  content: "\42";
+}
+.ah3-under:before {
+  content: "\43";
+}
+.ah3-blank:before {
+  content: "\44";
+}
+.ah3-investigator:before {
+  content: "\45";
+}
