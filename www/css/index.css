@@ -292,7 +292,7 @@ body {
     position: relative;
 }
 .cup-token .icon {
-    font-size: 36px;
+    font-size: 32px;
 }
 .cup-token-badge {
     position: absolute;
@@ -300,10 +300,13 @@ body {
     background-color: #8b5e3b;
     border-radius: 50%;
     font-size: 10px;
-    line-height: 18px;
+    line-height: 16px;
     font-weight: bold;
-    width: 18px;
-    margin-top: -18px;
+    width: 16px;
+    margin-top: -16px;
+}
+.cup-token-dots {
+    white-space: pre-wrap;
 }
 .cup-token-tot {
 
