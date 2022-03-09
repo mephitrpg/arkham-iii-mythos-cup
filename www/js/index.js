@@ -271,6 +271,47 @@ function renameSelectorOptions(options) {
     }
 }
 
+function modal(show = true, animate = false, content = '', callback = function(){}) {
+    
+    if (typeof content === 'function') {
+        callback = content;
+        content = '';
+    }
+
+    const parentTab = document.querySelector('.js-tab-content.active');
+    let overlayElement = parentTab.querySelector('.overlay');
+
+    if (!overlayElement) {
+        overlayElement = document.createElement('div');
+        overlayElement.className = 'overlay overlay-hidden';
+        parentTab.appendChild(overlayElement);
+
+        overlayElement.addEventListener('click', (event) => {
+            if (event.target === overlayElement) modal(false, animate);
+        });
+    }
+
+    if (content) {
+        overlayElement.innerHTML = '';
+        if (typeof content === 'string') overlayElement.innerHTML = content;
+        else overlayElement.appendChild(content);
+    }
+
+    if (animate) {
+        overlayElement.classList.add('overlay-animated');
+    } else {
+        overlayElement.classList.remove('overlay-animated');
+    }
+
+    if (show) {
+        overlayElement.classList.remove('overlay-hidden');
+    } else {
+        overlayElement.classList.add('overlay-hidden');
+    }
+    callback(overlayElement);
+    return overlayElement;
+}
+
 function selectorOverlay(selectorElement, show) {
 
     const parentTab = $(selectorElement).closest('.js-tab-content').get(0);
@@ -284,7 +325,7 @@ function selectorOverlay(selectorElement, show) {
         // parentTab.insertBefore(overlayElement, parentTab.children[0]);
         parentTab.appendChild(overlayElement);
 
-        overlayElement.addEventListener('click', ($ev) => {
+        overlayElement.addEventListener('click', () => {
             selectorElement.dispatchEvent(new Event('change'));
         });
 
@@ -586,11 +627,13 @@ var app = {
             this.generateMythosCup();
         }
 
-        const token = this.drawTokenFromMythosCup();
-        const investigatorIndex = investigatorElement.getAttribute('data-index');
-        this.addTokenToInvestigator(token, investigatorIndex);
+        this.drawTokenFromMythosCup(token => {
+            console.log(token)
+            const investigatorIndex = investigatorElement.getAttribute('data-index');
+            this.addTokenToInvestigator(token, investigatorIndex);
+            this.renderScenario();
+        });
 
-        this.renderScenario();
     },
 
     resetInvestigators() {
@@ -642,12 +685,19 @@ var app = {
         this.writeMythosCup();
     },
 
-    drawTokenFromMythosCup() {
+    drawTokenFromMythosCup(callback) {
+        if (typeof callback !== 'function') callback = function(){};
         const tokenIndex = rand(0, this.mythosCup.length - 1);
         const [token] = this.mythosCup.splice(tokenIndex, 1);
         // this.addToOverallTokens(token);
         this.writeMythosCup();
-        return token;
+
+        const modalContent = `<div class="icon ah3-${token.getIcon()}" style="font-size: 33vw;"></div>`;
+
+        modal(true, true, modalContent, () => {
+            console.log("modal opened")
+            callback(token);
+        });
     },
 
     // addToOverallTokens(token) {

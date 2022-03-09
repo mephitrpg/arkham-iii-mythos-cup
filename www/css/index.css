@@ -103,15 +103,6 @@ body {
     text-overflow: ellipsis;
 }
 
-.ocr .app-ui .card-name.match-yes {
-    opacity: 1;
-    background-color: #008800;
-}
-
-.ocr .app-ui .card-name.match-no {
-    opacity: 1;
-    background-color: #ff0000;
-}
 
 .scenario-name {
     font-size: 24px;
@@ -140,105 +131,31 @@ body {
     font-size: 14px;
 }
 
-.scenario-group {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
 
-.scenario-group-name {
-    margin-top: 1em;
-    font-weight: bold;
-    text-align: center;
-}
+/* OVERLAY */
 
-.scenario-group-columns {
-    padding-left: 0;
-    display: flex;
-}
-
-.scenario-group-column-1 {
-    list-style: none;
-    padding-right: 1em;
-    width: 50%;
-    box-sizing: border-box;
-}
-
-.scenario-group-column-2 {
-    list-style: none;
-    padding-left: 1em; 
-}
-
-.scenario-group-column-title {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    font-style: italic; 
-}
-
-.scenario-group-monsters-list {
-    padding-left: 1em;
-}
-
-.scenario-monsters-list-unique {
-    color: #8b5e3b;
-}
-
-.scenario-flat {
-    margin-top: 1em;
-    padding-bottom: 1em;
-    padding-left: 1em;
-    padding-right: 1em;
-}
-
-.scenario-flat .scenario-monsters-li:not(:first-child) {
-    border-top: 1px solid gray;
-}
-
-.scenario-flat .scenario-monsters-li .content {
-    display: flex;
-    justify-content: space-between;
-}
-
-.scenario-flat .scenario-monsters-li .content > * {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.scenario-flat .scenario-monsters-li .monster-name {
-    
-}
-
-.scenario-flat .scenario-monsters-li .group-name {
-    text-align: right;
-    color: gray;
-}
-
-.scenario-monsters-li.progress .content {
-
-}
-
-.scenario-monsters-li.complete .content,
-.scenario-monsters-li.warning .content,
-.scenario-monsters-li.error  .content {
-    background-color: #008800;
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: black;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.scenario-monsters-li.complete .group-name{
-    color: silver;
+.overlay-hidden {
+    opacity: 0;
+    display: none;
 }
 
-.scenario-monsters-li.warning .count {
-    background-color: #ff8800;
-}
-
-.scenario-monsters-li.error .count {
-    background-color: red;
-}
-
-.scenario-monsters-li.noitems {
-    color: #888888;
-    font-style: italic;
+.overlay-animated {
+    -webkit-transition-duration: 1s;
+    transition-duration: 1s;
 }
 
 /* INVESTIGATORS */
