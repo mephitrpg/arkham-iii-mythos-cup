@@ -146,16 +146,12 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    opacity: 1;
 }
 
 .overlay-hidden {
     opacity: 0;
-    display: none;
-}
-
-.overlay-animated {
-    -webkit-transition-duration: 1s;
-    transition-duration: 1s;
+    pointer-events: none;
 }
 
 /* INVESTIGATORS */

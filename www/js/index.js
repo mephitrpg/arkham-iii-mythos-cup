@@ -271,24 +271,24 @@ function renameSelectorOptions(options) {
     }
 }
 
-function modal(show = true, animate = false, content = '', callback = function(){}) {
-    
-    if (typeof content === 'function') {
-        callback = content;
-        content = '';
-    }
+function modal(content, options) {
+    options = _.defaults(options, {
+        open: true,
+        animate: true,
+        autoclose: null,
+        onOpen: function(){},
+        onClose: function(){},
+        duration: 400
+    });
 
     const parentTab = document.querySelector('.js-tab-content.active');
     let overlayElement = parentTab.querySelector('.overlay');
+    const callback = options.open ? options.onOpen : options.onClose;
+    const exists = !!overlayElement;
 
-    if (!overlayElement) {
+    if (!exists) {
         overlayElement = document.createElement('div');
-        overlayElement.className = 'overlay overlay-hidden';
-        parentTab.appendChild(overlayElement);
-
-        overlayElement.addEventListener('click', (event) => {
-            if (event.target === overlayElement) modal(false, animate);
-        });
+        overlayElement.classList.add('overlay');
     }
 
     if (content) {
@@ -297,18 +297,40 @@ function modal(show = true, animate = false, content = '', callback = function()
         else overlayElement.appendChild(content);
     }
 
-    if (animate) {
-        overlayElement.classList.add('overlay-animated');
+    if (options.animate) {
+        overlayElement.style.cssText = `-webkit-transition-duration: ${options.duration}ms; transition-duration: ${options.duration}ms;`;
     } else {
-        overlayElement.classList.remove('overlay-animated');
+        overlayElement.style.cssText = '';
     }
 
-    if (show) {
+    if (!exists) {
+        parentTab.appendChild(overlayElement);
+
+        if (!options.autoclose) {
+            overlayElement.addEventListener('click', (event) => {
+                if (event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
+            });    
+        }
+    }
+
+
+    if (options.open) {
         overlayElement.classList.remove('overlay-hidden');
+        if (options.autoclose) {
+            setTimeout(() => {
+                modal(null, Object.assign({}, options, {open: false}));    
+            }, options.duration);
+        }
     } else {
         overlayElement.classList.add('overlay-hidden');
     }
-    callback(overlayElement);
+
+    if (options.animate) {
+        setTimeout(callback, options.duration);
+    } else {
+        callback();
+    }
+
     return overlayElement;
 }
 
@@ -622,15 +644,13 @@ var app = {
     },
 
     drawMythosToken(investigatorElement) {
-
         if (!this.mythosCup.length) {
             this.generateMythosCup();
         }
 
+        this.investigatorIndex = investigatorElement.getAttribute('data-index');
         this.drawTokenFromMythosCup(token => {
-            console.log(token)
-            const investigatorIndex = investigatorElement.getAttribute('data-index');
-            this.addTokenToInvestigator(token, investigatorIndex);
+            this.addTokenToInvestigator(token, this.investigatorIndex);
             this.renderScenario();
         });
 
@@ -685,18 +705,20 @@ var app = {
         this.writeMythosCup();
     },
 
-    drawTokenFromMythosCup(callback) {
-        if (typeof callback !== 'function') callback = function(){};
+    drawTokenFromMythosCup(callback = function(){}) {
         const tokenIndex = rand(0, this.mythosCup.length - 1);
         const [token] = this.mythosCup.splice(tokenIndex, 1);
         // this.addToOverallTokens(token);
         this.writeMythosCup();
 
-        const modalContent = `<div class="icon ah3-${token.getIcon()}" style="font-size: 33vw;"></div>`;
+        const modalContent = `<img src="img/token_${token.getIcon()}.png" style="display: block; width: 33vw;">`;
 
-        modal(true, true, modalContent, () => {
-            console.log("modal opened")
-            callback(token);
+        this.modalToken = token; // avoid always return the same token onclose
+        modal(modalContent, {
+            autoclose: 0,
+            onClose: () => {
+                callback(this.modalToken);
+            }
         });
     },
 

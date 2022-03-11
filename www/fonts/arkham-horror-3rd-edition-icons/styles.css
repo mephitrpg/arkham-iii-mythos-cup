@@ -125,9 +125,9 @@
 .ah3-under:before {
   content: "\43";
 }
-.ah3-blank:before {
-  content: "\44";
-}
 .ah3-investigator:before {
   content: "\45";
+}
+.ah3-blank:before {
+  content: "\44";
 }
