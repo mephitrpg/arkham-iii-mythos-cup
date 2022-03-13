@@ -56,7 +56,7 @@
                         <li class="cup-token" data-token-id="Gate Burst"><div class="icon ah3-gate-burst"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-gate-burst"></div></li>
                         <li class="cup-token" data-token-id="Reckoning"><div class="icon ah3-reckoning"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-reckoning"></div></li>
                         <li class="cup-token" data-token-id="Spread Terror"><div class="icon ah3-terror"></div><div class="cup-token-badge"></div><div  class="cup-token-tot" id="cup-token-terror"></div></li>
-                        <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-blank"></div></li>
+                        <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank-empty"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-blank"></div></li>
                     </ul>
                     <div id="cup-bar" class="cup-bar">
                         <div id="cup-bar-text" class="cup-bar-text"></div>
@@ -64,9 +64,10 @@
                     </div>
                     <ul id="investigators" class="investigators"></ul>
                     <div class="cup-buttons">
-                        <button class="btn" id="new-turn-button">New round</button>
+                        <button class="btn" id="new-round-button">New round</button>
                         <button class="btn" id="refill-cup-button">Refill cup</button>
                     </div>
+                    <div class="apart"></div>
                 </div>
             </div>
             <div id="app-options" data-tab-content-key="options" class="js-tab-content tab-content app-options">
@@ -161,6 +162,7 @@
         <script src="js/lib/Expansion.js"></script>
         <script src="js/lib/MythosToken.js"></script>
         <script src="js/lib/Scenario.js"></script>
+        <script src="js/lib/StoredObject.js"></script>
         
         <!--
         <script>

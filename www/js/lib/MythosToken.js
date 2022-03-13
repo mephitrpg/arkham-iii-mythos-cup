@@ -1,9 +1,12 @@
 class MythosToken {
     constructor(data) {
-        this.data = data;
-        data.slug = {};
-        Object.keys(data.name).forEach(l => {
-            data.slug[l] = _s(data.name[l]).slugify().value();
+        this.data = _.defaults(data, {
+            latest: true,
+            beforeLatest: true,
+            apart: false,
+            slug: _.reduce(data.name, (memo, value, key) => {
+                return {...memo, [key]: _s(value).slugify().value()}
+            }, {}),
         });
         return this;
     }
@@ -18,6 +21,18 @@ class MythosToken {
     }
     getIcon(){
         return this.data.icon;
+    }
+    isLatest(flag){
+        if (typeof flag !== 'boolean') return this.data.latest;
+        this.data.latest = flag;
+    }
+    isBeforeLatest(flag){
+        if (typeof flag !== 'boolean') return this.data.beforelatest;
+        this.data.beforelatest = flag;
+    }
+    setApart(flag){
+        if (typeof flag !== 'boolean') return this.data.apart;
+        this.data.apart = flag;
     }
     clone(){
         return new MythosToken(JSON.parse(JSON.stringify(this.data)));

@@ -55,7 +55,7 @@ var options = {
         makeSelector({
             element: document.getElementById('options-investigators-quantity-selector'),
             options: ['1', '2', '3', '4', '5', '6'],
-            value: '6',
+            value: this.readOption('investigatorsQuantity') || '4',
             onChange: 'options.onInvestigatorsQuantityChange',
         });
 

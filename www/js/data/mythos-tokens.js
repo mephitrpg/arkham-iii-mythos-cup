@@ -53,7 +53,7 @@ let mythosTokens = [
 			"it": "Vuoto",
 			"es": "Vacía"
 		},
-		"icon": "blank"
+		"icon": "blank-empty"
 	},
 	{
 		"name": {

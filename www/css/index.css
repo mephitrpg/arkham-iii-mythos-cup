@@ -157,7 +157,7 @@ body {
 /* INVESTIGATORS */
 
 .investigators {
-    margin-top: 0;
+    margin: 0;
     list-style: none;
     padding: 0;
     text-align: center;
@@ -180,10 +180,28 @@ body {
 }
 .investigator-token {
     float: left;
+    margin: 0 4px 4px 0;
+    padding: 4px 1px 0 1px;
+    border: 1px solid #ffffff;
+    /* background-color: white;
+    color: black; */
+    border-radius: 50%;
+    -webkit-transition-duration: 1000ms; 
+    transition-duration: 1000ms; 
+}
+.investigator-token .icon.ah3-blank-empty {
+    color: transparent;
+}
+.investigator-token-latest {
+    border-color: #8b5e3b;
+    background-color: #8b5e3b;
+}
+.investigator-token-apart {
+    display: none;
 }
 .investigator-actions button {
     background-color: #8b5e3b;
-    padding: 4px 16px;
+    padding: 9px 18px;
     color: #ffffff;
     border: 0;
     font-size: 14px;
@@ -251,15 +269,14 @@ body {
 
 .cup-buttons .btn {
     background-color: #8b5e3b;
-    padding: 4px 16px;
+    padding: 9px 18px;
     color: #ffffff;
     border: 0;
     font-size: 14px;
-    margin-left: 2px;
+    margin-left: 10px;
 }
 
-
 .cup-buttons .btn:first-child {
-    margin-left: 0px;
+    margin-left: 0;
 }
 

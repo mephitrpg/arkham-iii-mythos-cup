@@ -312,10 +312,10 @@ function modal(content, options) {
 
     if (options.open) {
         overlayElement.classList.remove('overlay-hidden');
-        if (options.autoclose) {
+        if (typeof options.autoclose === 'number' && options.autoclose >= 0) {
             setTimeout(() => {
                 modal(null, Object.assign({}, options, {open: false}));    
-            }, options.duration);
+            }, options.autoclose);
         }
     } else {
         overlayElement.classList.add('overlay-hidden');
@@ -432,36 +432,57 @@ var app = {
             }
         });
         this.drawnElement             = document.getElementById('cup-tokens-drawn');
-        this.drawnElement.querySelectorAll('.cup-token').forEach(drawnTokenElement => {
-            drawnTokenElement.addEventListener('click', event => {
+        // this.drawnElement.querySelectorAll('.cup-token').forEach(drawnTokenElement => {
+        //     drawnTokenElement.addEventListener('click', event => {
                 
-                const tokenId = drawnTokenElement.getAttribute('data-token-id');
-                this.insertTokenIntoMythosCup(tokenId);
-                this.renderScenario();
-            });
-        });
+        //         const tokenId = drawnTokenElement.getAttribute('data-token-id');
+        //         this.insertTokenIntoMythosCup(tokenId);
+        //         this.renderScenario();
+        //     });
+        // });
 
         this.cupBarElement            = document.getElementById('cup-bar');
-
-        document.getElementById('new-turn-button').addEventListener('click', () => {
-
-        });
-
-        document.getElementById('refill-cup-button').addEventListener('click', () => {
-
-        });
 
         expansions = expansions.map(item => new Expansion(item));
         mythosTokens = mythosTokens.map(item => new MythosToken(item));
         scenarios = scenarios.map(item => new Scenario(item));
 
-        this.investigators = this.readInvestigators();
-        this.mythosCup = this.readMythosCup();
-        this.editableMythosCupData = this.readEditableMythosCupData();
+        this.investigators = new StoredObject('investigators', [[],[],[],[],[],[]], {
+            toObject: investigators => {
+                return investigators.map(investigator => investigator.map(data => new MythosToken(data)));
+            },
+            toJSON: investigators => {
+                return investigators.map(investigator => investigator.map(token => token.data));
+            },
+        });
+        
+        this.firstAppRun = !!localStorage.getItem('mythosCup');
+        
+        this.mythosCup = new StoredObject('mythosCup', [], {
+            toObject: mythosCup => {
+                return mythosCup.map(data => new MythosToken(data));
+            },
+            toJSON: mythosCup => {
+                return mythosCup.map(token => token.data);
+            },
+        });
+
+        this.editableMythosCupData = new StoredObject('editableMythosCupData', []);
 
         modal(null, {open: false});
 
         options.initialize();
+
+        document.getElementById('new-round-button').addEventListener('click', () => {
+            this.investigators.ref().forEach(investigator => investigator.forEach(token => token.setApart(true)));
+            this.investigators.write();
+            this.renderScenario();
+        });
+
+        document.getElementById('refill-cup-button').addEventListener('click', () => {
+            this.generateMythosCup();
+            this.renderScenario();
+        });
 
         this.onAppReady();
     },
@@ -529,11 +550,11 @@ var app = {
     },
 
     selectScenario: function(event) {
-        const isFirstTime = !this.scenario;
+        const noScenarioSelected = !this.scenario;
         const scenarioId = event.target.value;
         options.saveOption('scenarioId', scenarioId);
         const scenario = this.scenario = this.getScenarioById(scenarioId);
-        if (!isFirstTime) {
+        if (!noScenarioSelected) {
             this.generateMythosCup();
         } else if (!localStorage.getItem('mythosCup')) {
             this.generateMythosCup();
@@ -552,26 +573,17 @@ var app = {
     },
 
     renderScenario: function() {
-        let investigatorsList = '';
         if (this.scenario) {
-            const q = Number(options.readOption('investigatorsQuantity'));
-            for(let i = 0; i < q; i++) {
-                investigatorsList += `
-                <li class="investigator" data-index="${i}">
-                    <div class="investigator-title"><span class="icon ah3-investigator"></span>&nbsp;<sub>${i+1}</sub></div>
-                    <div class="investigator-tokens">${this.investigators[i].map(token => {
-                        return `<div class="investigator-token"><span class="icon ah3-${token.getIcon()}"></span></div>`;
-                    }).join('')}</div>
-                    <div class="investigator-actions">
-                        <button data-index="${i}">+</button>
-                    </div>
-                </li>
-                `;
-            }
             this.drawnElement.querySelectorAll('.cup-token').forEach(tokenElement => {
                 const tokenId = tokenElement.getAttribute('data-token-id');
-                const curr = this.mythosCup.filter(item => item.getId() === tokenId).length;
-                const tot = this.editableMythosCupData.find(item => item.id === tokenId)?.quantity || 0;
+                const curr = this.mythosCup.ref().filter(item => item.getId() === tokenId).length;
+                const tot = this.editableMythosCupData.ref().find(item => item.id === tokenId)?.quantity || 0;
+                let initialDisplay = tokenElement.getAttribute('data-css-display');
+                if (!initialDisplay) {
+                    initialDisplay = getComputedStyle(tokenElement).display;
+                    tokenElement.setAttribute('data-css-display', initialDisplay);
+                }
+                tokenElement.style.display = tot ? initialDisplay : 'none';
                 const totElement = tokenElement.querySelector('.cup-token-tot');
                 let dots = '';
                 const dotOpacityIfNotZero = curr ? 0.4 : 1;
@@ -579,58 +591,79 @@ var app = {
                 totElement.innerHTML = `<div class="cup-token-dots">${dots}</div>`;
                 tokenElement.style.opacity = curr ? 1 : 0.4;
             });
-            const total = this.editableMythosCupData.reduce((result, item) => result + item.quantity, 0);
-            const current = this.mythosCup.length;
+            const total = this.editableMythosCupData.ref().reduce((result, item) => result + item.quantity, 0);
+            const current = this.mythosCup.ref().length;
             const perc = current / total * 100;
             this.cupBarElement.style.cssText = (
                 `background-image: -webkit-linear-gradient(90deg, rgba(139,94,59,1) 0%, rgba(139,94,59,1) ${perc}%, rgba(0,0,0,1)  ${perc}%, rgba(0,0,0,1) 100%);` +
                 `background-image: linear-gradient(90deg, rgba(139,94,59,1) 0%, rgba(139,94,59,1)  ${perc}%, rgba(0,0,0,1)  ${perc}%, rgba(0,0,0,1) 100%);`
             );
+
             this.cupBarElement.innerHTML = `${current} / ${total}`;
+
+            let investigatorsList = '';
+            const q = Number(options.readOption('investigatorsQuantity'));
+            for(let i = 0; i < q; i++) {
+                investigatorsList += `
+                <li class="investigator" data-index="${i}">
+                    <div class="investigator-title"><span class="icon ah3-investigator"></span>&nbsp;<sub>${i+1}</sub></div>
+                    <div class="investigator-tokens">${this.investigators.ref()[i].map((token, t, arr) => {
+                        const beforelast = token.isBeforeLatest() ? 'investigator-token-latest' : '' ;
+                        const apart = token.setApart() ? 'investigator-token-apart' : '';
+                        return `<div class="investigator-token ${beforelast} ${apart}" data-index="${t}"><span class="icon ah3-${token.getIcon()}"></span></div>`;
+                    }).join('')}</div>
+                    <div class="investigator-actions">
+                        <button data-index="${i}">+</button>
+                    </div>
+                </li>
+                `;
+            }
+            this.investigatorsElement.innerHTML = investigatorsList;
+            
+            // animate
+
+            for(let i = 0; i < q; i++) {
+                this.investigators.ref()[i].forEach((token, t) => {
+                    if (!token.isLatest()) return;
+                    const investigatorTokensElement = this.investigatorsElement.querySelector(`.investigator[data-index="${i}"] .investigator-tokens`);
+                    setTimeout(() => {
+                        const children = investigatorTokensElement.children;
+                        document.querySelector('.investigator-token-latest')?.classList.remove('investigator-token-latest');
+                        children[t].classList.add('investigator-token-latest');
+                    }, 0);
+                });
+            }
         }
-        this.investigatorsElement.innerHTML = investigatorsList;
     },
 
     howManyTokensById(tokenId) {
-        const token = this.editableMythosCupData.find(token => token.id === tokenId);
+        const token = this.editableMythosCupData.ref().find(token => token.id === tokenId);
         return token ? token.quantity : 0;
     },
 
     insertTokenIntoMythosCup(tokenId) {
-        const tokenData = this.editableMythosCupData.find(token => token.id === tokenId);
+        const tokenData = this.editableMythosCupData.ref().find(token => token.id === tokenId);
         if (tokenData) {
             tokenData.quantity++;
-            this.writeEditableMythosCupData();
+            this.editableMythosCupData.write();
             const token = mythosTokens.find(item => item.getId() === tokenData.id);
             this.addTokenToMythosCup(token.clone());
         }
     },
 
     deleteTokenFromMythosCup(tokenId) {
-        const token = this.editableMythosCupData.find(token => token.id === tokenId);
+        const token = this.editableMythosCupData.ref().find(token => token.id === tokenId);
         if (token && token.quantity) {
             token.quantity--;
-            this.writeEditableMythosCupData();
+            this.editableMythosCupData.write();
         }
-    },
-
-    writeEditableMythosCupData() {
-        const data = this.editableMythosCupData;
-        localStorage.setItem('editableMythosCupData', JSON.stringify(data));
-        return data;
-    },
-
-    readEditableMythosCupData() {
-        const data = localStorage.getItem('editableMythosCupData');
-        if (!data) return [];
-        return JSON.parse(data);
     },
     
     generateMythosCup() {
-        this.resetInvestigators();
-        this.resetMythosCup();
-        this.resetEditableMythosCupData();
-        this.editableMythosCupData.map(scenarioToken => {
+        this.investigators.reset();
+        this.mythosCup.reset();
+        this.editableMythosCupData.reset(this.scenario.getMythosCup());
+        this.editableMythosCupData.ref().map(scenarioToken => {
             const mythosToken = mythosTokens.find(mythosToken => {
                 return mythosToken.getId() === scenarioToken.id;
             });
@@ -638,11 +671,11 @@ var app = {
                 this.addTokenToMythosCup(mythosToken.clone());
             }
         });
-        this.writeMythosCup();
+        this.mythosCup.write();
     },
 
     drawMythosToken(investigatorElement) {
-        if (!this.mythosCup.length) {
+        if (!this.mythosCup.ref().length) {
             this.generateMythosCup();
         }
 
@@ -654,66 +687,35 @@ var app = {
 
     },
 
-    resetInvestigators() {
-        this.investigators = [[],[],[],[],[],[]];
-        this.writeInvestigators();
-        return this.investigators;
-    },
-
-    readInvestigators() {
-        const investigators = localStorage.getItem('investigators');
-        if (!investigators) return [[],[],[],[],[],[]];
-        return JSON.parse(investigators).map(investigator => investigator.map(data => new MythosToken(data)));
-    },
-
-    writeInvestigators() {
-        const inv = this.investigators.map(investigator => investigator.map(token => token.data));
-        localStorage.setItem('investigators', JSON.stringify(inv));
-    },
-
     addTokenToInvestigator(token, investigatorIndex) {
-        this.investigators[investigatorIndex].push(token);
-        this.writeInvestigators();
-    },
-
-    resetMythosCup() {
-        this.mythosCup = [];
-        this.writeMythosCup();
-        return this.mythosCup;
-    },
-
-    resetEditableMythosCupData() {
-        this.editableMythosCupData = this.scenario.getMythosCup();
-        this.writeEditableMythosCupData();
-        return this.editableMythosCupData;
-    },
-
-    readMythosCup() {
-        const mythosCup = localStorage.getItem('mythosCup');
-        if (!mythosCup) return [];
-        return JSON.parse(mythosCup).map(data => new MythosToken(data));
-    },
-
-    writeMythosCup() {
-        localStorage.setItem('mythosCup', JSON.stringify(this.mythosCup.map(token => token.data)));
+        this.investigators.ref().forEach(investigator => investigator.forEach(token => {
+            if (token.isBeforeLatest()) {
+                token.isBeforeLatest(false);
+            } else if (token.isLatest()) {
+                token.isLatest(false);
+                token.isBeforeLatest(true);
+            }
+        }));
+        this.investigators.ref()[investigatorIndex].push(token);
+        this.investigators.write();
     },
 
     addTokenToMythosCup(token) {
-        this.mythosCup.push(token);
-        this.writeMythosCup();
+        this.mythosCup.ref().push(token);
+        this.mythosCup.write();
     },
 
     drawTokenFromMythosCup(callback = function(){}) {
-        const tokenIndex = rand(0, this.mythosCup.length - 1);
-        const [token] = this.mythosCup.splice(tokenIndex, 1);
+        const tokenIndex = rand(0, this.mythosCup.ref().length - 1);
+        const [token] = this.mythosCup.ref().splice(tokenIndex, 1);
         // this.addToOverallTokens(token);
-        this.writeMythosCup();
+        this.mythosCup.write();
 
+        
         const modalContent = `<img src="img/token_${token.getIcon()}.png" style="display: block; width: 33vw;">`;
-
         this.modalToken = token; // avoid always return the same token onclose
         modal(modalContent, {
-            autoclose: 0,
+            autoclose: 800,
             onClose: () => {
                 callback(this.modalToken);
             }
