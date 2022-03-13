@@ -305,14 +305,10 @@ function modal(content, options) {
 
     if (!exists) {
         parentTab.appendChild(overlayElement);
-
-        if (!options.autoclose) {
-            overlayElement.addEventListener('click', (event) => {
-                if (event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
-            });    
-        }
+        overlayElement.addEventListener('click', (event) => {
+            if (event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
+        });
     }
-
 
     if (options.open) {
         overlayElement.classList.remove('overlay-hidden');
@@ -462,6 +458,8 @@ var app = {
         this.investigators = this.readInvestigators();
         this.mythosCup = this.readMythosCup();
         this.editableMythosCupData = this.readEditableMythosCupData();
+
+        modal(null, {open: false});
 
         options.initialize();
 
