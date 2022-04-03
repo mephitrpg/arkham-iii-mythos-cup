@@ -276,6 +276,7 @@ function modal(content, options) {
         open: true,
         animate: true,
         autoclose: null,
+        closeOnOverlayClick: true,
         onOpen: function(){},
         onClose: function(){},
         duration: 400
@@ -283,13 +284,14 @@ function modal(content, options) {
 
     const parentTab = document.querySelector('.js-tab-content.active');
     let overlayElement = parentTab.querySelector('.overlay');
-    const callback = options.open ? options.onOpen : options.onClose;
     const exists = !!overlayElement;
 
     if (!exists) {
         overlayElement = document.createElement('div');
         overlayElement.classList.add('overlay');
     }
+
+    const callback = options.open ? options.onOpen.bind(this, overlayElement) : options.onClose.bind(this, overlayElement);
 
     if (content) {
         overlayElement.innerHTML = '';
@@ -306,7 +308,7 @@ function modal(content, options) {
     if (!exists) {
         parentTab.appendChild(overlayElement);
         overlayElement.addEventListener('click', (event) => {
-            if (event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
+            if (closeOnOverlayClick && event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
         });
     }
 
@@ -555,9 +557,16 @@ var app = {
         options.saveOption('scenarioId', scenarioId);
         const scenario = this.scenario = this.getScenarioById(scenarioId);
         if (!noScenarioSelected) {
+            console.log("A")
             this.generateMythosCup();
-        } else if (!localStorage.getItem('mythosCup')) {
-            this.generateMythosCup();
+        } else {
+            console.log(localStorage.getItem('mythosCup'))
+            if (this.firstAppRun) {
+                console.log("B")
+                this.generateMythosCup();
+            } else {
+                console.log("C")
+            }
         }
         this.renderScenario();
     },

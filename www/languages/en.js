@@ -24,5 +24,12 @@ languages["en"] = {
         "SPECIFIC_MONSTERS": "Specific monsters",
         "ALL_TYPE_MONSTERS": "All <strong>%1</strong> monsters",
         "NO_MONSTERS": "No monsters",
+        "NEW_ROUND": "New round",
+        "REFILL_CUP": "Replenish cup",
+        "EDIT_CUP": "Edit cup",
+        "CLEAR_DATA": "Clear data",
+        "ARE_YOU_SURE": "Are you sure?",
+        "YES": "Yes",
+        "NO": "No",
     },
 };

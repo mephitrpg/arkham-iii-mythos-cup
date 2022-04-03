@@ -267,7 +267,7 @@ body {
     flex-grow: 1;
 }
 
-.cup-buttons .btn {
+.btn {
     background-color: #8b5e3b;
     padding: 9px 18px;
     color: #ffffff;
@@ -276,7 +276,7 @@ body {
     margin-left: 10px;
 }
 
-.cup-buttons .btn:first-child {
+.btn:first-child {
     margin-left: 0;
 }
 

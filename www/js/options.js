@@ -43,6 +43,11 @@ var options = {
             );
         });
 
+        $('#app-options .app-content').append(
+            `<div class="options-row" style="justify-content: center;"><button id="clear-data-button" class="btn" data-lang="CLEAR_DATA"></button></div>`
+        );
+
+
         // lang
         makeSelector({
             element: document.getElementById('options-lang-selector'),
@@ -66,6 +71,31 @@ var options = {
             if (!expElement) return;
             expElement.checked = this.readOption(`exp${code}`);
             expElement.addEventListener('change', this.onExpChange.bind(this, code));
+        });
+
+        // clear data
+        document.getElementById('clear-data-button').addEventListener('click', event => {
+            content = `
+                <p>${l('ARE_YOU_SURE')}</p>
+                <p><button class="btn" data-choice="0">${l('NO')}</button><button class="btn" data-choice="1">${l('YES')}</button></p>
+            `;
+            modal(content, {
+                closeOnOverlayClick: false,
+                onOpen: (overlayElement) => {
+                    function onClick(event) {
+                        const choice = event.target.getAttribute('data-choice');
+                        if (!choice) return;
+                        overlayElement.removeEventListener('click', onClick);
+                        if (Number(choice)) {
+                            localStorage.clear();
+                            location.reload();
+                        } else {
+                            modal(null, {open: false});
+                        }
+                    }
+                    overlayElement.addEventListener('click', onClick.bind(this));
+                }
+            });
         });
 
     },
