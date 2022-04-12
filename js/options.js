@@ -43,6 +43,10 @@ var options = {
             );
         });
 
+        $('#app-options .app-content').append(
+            `<div class="options-row" style="justify-content: center;"><button id="clear-data-button" class="btn" data-lang="CLEAR_DATA"></button></div>`
+        );
+
         // lang
         makeSelector({
             element: document.getElementById('options-lang-selector'),
@@ -66,6 +70,14 @@ var options = {
             if (!expElement) return;
             expElement.checked = this.readOption(`exp${code}`);
             expElement.addEventListener('change', this.onExpChange.bind(this, code));
+        });
+
+        // clear data
+        document.getElementById('clear-data-button').addEventListener('click', event => {
+            modalPrompt(()=>{
+                localStorage.clear();
+                location.reload();
+            });
         });
 
     },

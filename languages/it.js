@@ -24,5 +24,15 @@ languages["it"] = {
         "SPECIFIC_MONSTERS": "Mostri specifici",
         "ALL_TYPE_MONSTERS": "Tutti i mostri <strong>%1</strong>",
         "NO_MONSTERS": "Nessun mostro",
+        "NEW_ROUND": "Nuovo round",
+        "REFILL_CUP": "Rifornire sacchetto",
+        "EDIT_CUP": "Modifica sacchetto",
+        "CLEAR_DATA": "Cancella dati",
+        "ARE_YOU_SURE": "Sei sicuro?",
+        "YES": "Sì",
+        "NO": "No",
+        "EDIT_TAP_TO_ADD": "Tocca un segnalino per aggiungerne uno.",
+        "EDIT_TAP_TO_REMOVE": "Tocca un segnalino per rimuoverne uno.",
+        "EDIT_TAP_TO_REMOVE_INVESTIGATORS": "Tocca un segnalino per rimuoverlo."
     },
 };

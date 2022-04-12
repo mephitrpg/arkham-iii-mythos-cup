@@ -24,5 +24,15 @@ languages["es"] = {
         "SPECIFIC_MONSTERS": "Monstruos específicos",
         "ALL_TYPE_MONSTERS": "Todos los monstruos <strong>%1</strong>",
         "NO_MONSTERS": "Ningún monstruo",
+        "NEW_ROUND": "Nueva ronda",
+        "REFILL_CUP": "Repones reserva",
+        "EDIT_CUP": "Modificas reserva",
+        "CLEAR_DATA": "Borrar datos",
+        "ARE_YOU_SURE": "Estas seguro?",
+        "YES": "Sí",
+        "NO": "No",
+        "EDIT_TAP_TO_ADD": "Toque un token para agregar uno.",
+        "EDIT_TAP_TO_REMOVE": "Toque un token para eliminar uno.",
+        "EDIT_TAP_TO_REMOVE_INVESTIGATORS": "Toque un token para eliminarlo."
     },
 };

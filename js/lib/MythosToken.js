@@ -34,7 +34,10 @@ class MythosToken {
         if (typeof flag !== 'boolean') return this.data.apart;
         this.data.apart = flag;
     }
+    toJSON() {
+        return JSON.parse(JSON.stringify(this.data));
+    }
     clone(){
-        return new MythosToken(JSON.parse(JSON.stringify(this.data)));
+        return new MythosToken(this.toJSON());
     }
 }

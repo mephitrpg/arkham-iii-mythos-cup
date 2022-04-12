@@ -1,54 +1,6 @@
 var _s = s;
 var app_started = new Date();
 
-// https://github.com/joepie91/node-random-number-csprng#readme
-function rand(min, max) {
-    var i = rval = bits = bytes = 0;
-    var range = max - min;
-    if (range < 1) {
-        return min;
-    }
-    if (window.crypto && window.crypto.getRandomValues) {
-        // Calculate Math.ceil(Math.log(range, 2)) using binary operators
-        var tmp = range;
-        /**
-         * mask is a binary string of 1s that we can & (binary AND) with our random
-         * value to reduce the number of lookups
-         */
-        var mask = 1;
-        while (tmp > 0) {
-            if (bits % 8 === 0) {
-                bytes++;
-            }
-            bits++;
-            mask = mask << 1 | 1; // 0x00001111 -> 0x00011111
-            tmp = tmp >>> 1;      // 0x01000000 -> 0x00100000
-        }
-        
-        var values = new Uint8Array(bytes);
-        do {
-            window.crypto.getRandomValues(values);
-            
-            // Turn the random bytes into an integer
-            rval = 0;
-            for (i = 0; i < bytes; i++) {
-                rval |= (values[i] << (8 * i));
-            }
-            // Apply the mask
-            rval &= mask;
-            // We discard random values outside of the range and try again
-            // rather than reducing by a modulo to avoid introducing bias
-            // to our random numbers.
-        } while (rval > range);
-        
-        // We should return a value in the interval [min, max]
-        return (rval + min);
-    } else {
-        // CSPRNG not available
-        return min + Math.floor(Math.random() * range)
-    }
-}
-
 function isBrowser() {
     return device.platform === 'browser';
 }
@@ -276,6 +228,7 @@ function modal(content, options) {
         open: true,
         animate: true,
         autoclose: null,
+        closeOnOverlayClick: true,
         onOpen: function(){},
         onClose: function(){},
         duration: 400
@@ -283,13 +236,14 @@ function modal(content, options) {
 
     const parentTab = document.querySelector('.js-tab-content.active');
     let overlayElement = parentTab.querySelector('.overlay');
-    const callback = options.open ? options.onOpen : options.onClose;
     const exists = !!overlayElement;
 
     if (!exists) {
         overlayElement = document.createElement('div');
         overlayElement.classList.add('overlay');
     }
+
+    const callback = options.open ? options.onOpen.bind(this, overlayElement) : options.onClose.bind(this, overlayElement);
 
     if (content) {
         overlayElement.innerHTML = '';
@@ -306,7 +260,7 @@ function modal(content, options) {
     if (!exists) {
         parentTab.appendChild(overlayElement);
         overlayElement.addEventListener('click', (event) => {
-            if (event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
+            if (closeOnOverlayClick && event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
         });
     }
 
@@ -328,6 +282,28 @@ function modal(content, options) {
     }
 
     return overlayElement;
+}
+
+function modalPrompt(callback = function(){}) {
+    const content = `
+        <p>${l('ARE_YOU_SURE')}</p>
+        <p><button class="btn" data-choice="0">${l('NO')}</button><button class="btn" data-choice="1">${l('YES')}</button></p>
+    `;
+    modal(content, {
+        closeOnOverlayClick: false,
+        onOpen: (overlayElement) => {
+            function onClick(event) {
+                const choice = event.target.getAttribute('data-choice');
+                if (!choice) return;
+                overlayElement.removeEventListener('click', onClick);
+                if (Number(choice)) {
+                    callback();
+                }
+                modal(null, {open: false});
+            }
+            overlayElement.addEventListener('click', onClick);
+        }
+    });
 }
 
 function selectorOverlay(selectorElement, show) {
@@ -412,76 +388,115 @@ var app = {
 
     prepareApp: function() {
 
-        this.appElement               = document.getElementById('app');
-        this.tabElements              = {};
-        this.tabContentElements       = {};
+        expansions   = expansions.map(item => new Expansion(item));
+        mythosTokens = mythosTokens.map(item => new MythosToken(item));
+        scenarios    = scenarios.map(item => new Scenario(item));
+
+        const that = this;
+
+        this.isEditing                 = false;
+        this.firstAppRun               = !localStorage.getItem('mythosCup');
+
+        this.tabElements               = {};
+        this.tabContentElements        = {};
+        this.appElement                = document.getElementById('app');
+        this.scenarioSelector          = document.getElementById('scenario-selector');
+        this.investigatorsElement      = document.getElementById('investigators');
+        this.mythosCupElement          = document.getElementById('mythos-cup');
+        this.mythosCupEditElement      = document.getElementById('cup-edit');
+        this.mythosCupArrowElement     = document.getElementById('cup-arrow');
+        this.mythosCupArrowAreaElement = document.getElementById('cup-arrow-area');
+        this.addTokensElement          = document.getElementById('cup-tokens-add');
+        this.drawnElement              = document.getElementById('cup-tokens-drawn');
+        this.cupBarElement             = document.getElementById('cup-bar');
+        
         document.querySelectorAll('[data-tab-key]').forEach(tabElement => {
             const tabKey = tabElement.getAttribute('data-tab-key');
             this.tabElements[tabKey] = document.querySelector('[data-tab-key="' + tabKey + '"]');
             this.tabContentElements[tabKey] = document.querySelector('[data-tab-content-key="' + tabKey + '"]');
         });
-        this.scenarioSelector         = document.getElementById('scenario-selector');
 
-        this.investigatorsElement     = document.getElementById('investigators');
-        this.investigatorsElement.addEventListener('click', event => {
-            const element = event.target;
-            if (element.tagName.toLowerCase() === 'button') {
-                const index = element.getAttribute('data-index');
-                this.drawMythosToken(document.querySelector(`.investigator[data-index="${index}"]`));
+        // metadati della mythos cup
+        this.metadata = new MythosCupMetadata();
 
-            }
-        });
-        this.drawnElement             = document.getElementById('cup-tokens-drawn');
-        // this.drawnElement.querySelectorAll('.cup-token').forEach(drawnTokenElement => {
-        //     drawnTokenElement.addEventListener('click', event => {
-                
-        //         const tokenId = drawnTokenElement.getAttribute('data-token-id');
-        //         this.insertTokenIntoMythosCup(tokenId);
-        //         this.renderScenario();
-        //     });
-        // });
+        // lista di token nella mythos cup
+        this.mythosCup = new MythosCup();
 
-        this.cupBarElement            = document.getElementById('cup-bar');
-
-        expansions = expansions.map(item => new Expansion(item));
-        mythosTokens = mythosTokens.map(item => new MythosToken(item));
-        scenarios = scenarios.map(item => new Scenario(item));
-
-        this.investigators = new StoredObject('investigators', [[],[],[],[],[],[]], {
-            toObject: investigators => {
-                return investigators.map(investigator => investigator.map(data => new MythosToken(data)));
-            },
-            toJSON: investigators => {
-                return investigators.map(investigator => investigator.map(token => token.data));
-            },
-        });
-        
-        this.firstAppRun = !!localStorage.getItem('mythosCup');
-        
-        this.mythosCup = new StoredObject('mythosCup', [], {
-            toObject: mythosCup => {
-                return mythosCup.map(data => new MythosToken(data));
-            },
-            toJSON: mythosCup => {
-                return mythosCup.map(token => token.data);
-            },
-        });
-
-        this.editableMythosCupData = new StoredObject('editableMythosCupData', []);
+        // token pescati dagli investigatori
+        this.investigatorsTokens = new InvestigatorsTokens();
 
         modal(null, {open: false});
 
         options.initialize();
 
+        this.investigatorsElement.addEventListener('click', event => {
+            const element = event.target;
+
+            if (element.tagName.toLowerCase() === 'button') {
+                const index = element.getAttribute('data-index');
+                this.drawMythosToken(document.querySelector(`.investigator[data-index="${index}"]`));
+                return;
+            }
+            
+            if (!this.isEditing) {
+                return;
+            }
+
+            const tokenElement = $(element).closest('.investigator-token').get(0);
+            const investigatorElement = $(tokenElement).closest('.investigator').get(0);
+            if (tokenElement && investigatorElement) {
+                const tokenIndex = tokenElement.getAttribute('data-index');
+                const investigatorIndex = investigatorElement.getAttribute('data-index');
+                this.deleteTokenAtIndexFromInvestigator(tokenIndex, investigatorIndex);
+                this.renderScenario();
+            }
+
+        });
+
+        this.mythosCupArrowAreaElement.addEventListener('click', event => {
+            this.isEditing = !this.isEditing;
+            this.mythosCupArrowElement.style.cssText = this.mythosCupArrowElement.style.cssText ? '' : 'transform: rotate(180deg);';
+            $(this.mythosCupEditElement).slideToggle();
+            $('#message-drawn-tokens').slideToggle();
+        });
+
+        this.addTokensElement.querySelectorAll('.cup-token').forEach(token => {
+            token.addEventListener('click', function(event) {
+                if (!that.isEditing) return;
+                const tokenId = this.getAttribute('data-token-id');
+                if (that.insertTokenIntoMythosCup(tokenId)) {
+                    that.renderScenario();
+                }
+            });
+        });
+
+        this.drawnElement.querySelectorAll('.cup-token').forEach(token => {
+            token.addEventListener('click', function(event) {
+                if (!that.isEditing) return;
+                const tokenId = this.getAttribute('data-token-id');
+                if (that.deleteTokenFromMythosCup(tokenId)) {
+                    that.renderScenario();
+                }
+            });
+        });
+
         document.getElementById('new-round-button').addEventListener('click', () => {
-            this.investigators.ref().forEach(investigator => investigator.forEach(token => token.setApart(true)));
-            this.investigators.write();
-            this.renderScenario();
+            modalPrompt(()=>{
+                this.investigatorsTokens.ref().forEach(investigator => {
+                    investigator.forEach(token => {
+                        token.setApart(true);
+                    });
+                });
+                this.investigatorsTokens.write();
+                this.renderScenario();
+            });
         });
 
         document.getElementById('refill-cup-button').addEventListener('click', () => {
-            this.generateMythosCup();
-            this.renderScenario();
+            modalPrompt(()=>{
+                this.generateMythosCup();
+                this.renderScenario();
+            });
         });
 
         this.onAppReady();
@@ -551,12 +566,13 @@ var app = {
 
     selectScenario: function(event) {
         const noScenarioSelected = !this.scenario;
+        const yesScenarioSelected = !noScenarioSelected;
         const scenarioId = event.target.value;
         options.saveOption('scenarioId', scenarioId);
         const scenario = this.scenario = this.getScenarioById(scenarioId);
         if (!noScenarioSelected) {
             this.generateMythosCup();
-        } else if (!localStorage.getItem('mythosCup')) {
+        } else if (this.firstAppRun) {
             this.generateMythosCup();
         }
         this.renderScenario();
@@ -576,8 +592,9 @@ var app = {
         if (this.scenario) {
             this.drawnElement.querySelectorAll('.cup-token').forEach(tokenElement => {
                 const tokenId = tokenElement.getAttribute('data-token-id');
-                const curr = this.mythosCup.ref().filter(item => item.getId() === tokenId).length;
-                const tot = this.editableMythosCupData.ref().find(item => item.id === tokenId)?.quantity || 0;
+                const tot = this.metadata.quantity(tokenId);
+                const currOut = this.investigatorsTokens.quantity(tokenId);
+                const currIn = tot - currOut;
                 let initialDisplay = tokenElement.getAttribute('data-css-display');
                 if (!initialDisplay) {
                     initialDisplay = getComputedStyle(tokenElement).display;
@@ -586,12 +603,12 @@ var app = {
                 tokenElement.style.display = tot ? initialDisplay : 'none';
                 const totElement = tokenElement.querySelector('.cup-token-tot');
                 let dots = '';
-                const dotOpacityIfNotZero = curr ? 0.4 : 1;
-                for (let i = 0; i < tot; i++) dots += `<span style="opacity: ${i < curr ? 1 : dotOpacityIfNotZero}">•</span>`;
+                const dotOpacityIfNotZero = currIn ? 0.4 : 1;
+                for (let i = 0; i < tot; i++) dots += `<span style="opacity: ${i < currIn ? 1 : dotOpacityIfNotZero}">•</span>`;
                 totElement.innerHTML = `<div class="cup-token-dots">${dots}</div>`;
-                tokenElement.style.opacity = curr ? 1 : 0.4;
+                tokenElement.style.opacity = currIn ? 1 : 0.4;
             });
-            const total = this.editableMythosCupData.ref().reduce((result, item) => result + item.quantity, 0);
+            const total = this.metadata.ref().reduce((result, token) => result + token.quantity, 0);
             const current = this.mythosCup.ref().length;
             const perc = current / total * 100;
             this.cupBarElement.style.cssText = (
@@ -607,7 +624,7 @@ var app = {
                 investigatorsList += `
                 <li class="investigator" data-index="${i}">
                     <div class="investigator-title"><span class="icon ah3-investigator"></span>&nbsp;<sub>${i+1}</sub></div>
-                    <div class="investigator-tokens">${this.investigators.ref()[i].map((token, t, arr) => {
+                    <div class="investigator-tokens">${this.investigatorsTokens.ref()[i].map((token, t, arr) => {
                         const beforelast = token.isBeforeLatest() ? 'investigator-token-latest' : '' ;
                         const apart = token.setApart() ? 'investigator-token-apart' : '';
                         return `<div class="investigator-token ${beforelast} ${apart}" data-index="${t}"><span class="icon ah3-${token.getIcon()}"></span></div>`;
@@ -623,7 +640,7 @@ var app = {
             // animate
 
             for(let i = 0; i < q; i++) {
-                this.investigators.ref()[i].forEach((token, t) => {
+                this.investigatorsTokens.ref()[i].forEach((token, t) => {
                     if (!token.isLatest()) return;
                     const investigatorTokensElement = this.investigatorsElement.querySelector(`.investigator[data-index="${i}"] .investigator-tokens`);
                     setTimeout(() => {
@@ -636,96 +653,58 @@ var app = {
         }
     },
 
-    howManyTokensById(tokenId) {
-        const token = this.editableMythosCupData.ref().find(token => token.id === tokenId);
-        return token ? token.quantity : 0;
-    },
-
     insertTokenIntoMythosCup(tokenId) {
-        const tokenData = this.editableMythosCupData.ref().find(token => token.id === tokenId);
-        if (tokenData) {
-            tokenData.quantity++;
-            this.editableMythosCupData.write();
-            const token = mythosTokens.find(item => item.getId() === tokenData.id);
-            this.addTokenToMythosCup(token.clone());
-        }
+        const token = mythosTokens.find(item => item.getId() === tokenId);
+        console.log(tokenId,"+",token)
+        if (!token) return false;
+        this.metadata.increment(tokenId);
+        this.mythosCup.add(token.clone());
+        return true;
     },
 
     deleteTokenFromMythosCup(tokenId) {
-        const token = this.editableMythosCupData.ref().find(token => token.id === tokenId);
-        if (token && token.quantity) {
-            token.quantity--;
-            this.editableMythosCupData.write();
-        }
+        const tokenIndex = this.mythosCup.findIndex(tokenId);
+        console.log(tokenId,"-",tokenIndex)
+        if (tokenIndex === -1) return false;
+        this.metadata.decrement(tokenId);
+        this.mythosCup.removeAt(tokenIndex);
+        return true;
+    },
+    
+    deleteTokenAtIndexFromInvestigator(tokenIndex, investigatorIndex) {
+        const token = this.investigatorsTokens.removeAt(tokenIndex, investigatorIndex);
+        console.log(token.getId(),"-")
+        this.metadata.decrement(token.getId());
     },
     
     generateMythosCup() {
-        this.investigators.reset();
-        this.mythosCup.reset();
-        this.editableMythosCupData.reset(this.scenario.getMythosCup());
-        this.editableMythosCupData.ref().map(scenarioToken => {
-            const mythosToken = mythosTokens.find(mythosToken => {
-                return mythosToken.getId() === scenarioToken.id;
-            });
-            for (let i = 0; i < scenarioToken.quantity; i++) {
-                this.addTokenToMythosCup(mythosToken.clone());
-            }
-        });
-        this.mythosCup.write();
+        this.investigatorsTokens.reset();
+        this.metadata.reset(this.scenario.getMythosCup());
+        this.mythosCup.reset(this.metadata.ref().reduce((list, scenarioTokenData) => {
+            const mythosToken = mythosTokens.find(mythosToken => mythosToken.getId() === scenarioTokenData.id);
+            for (let i = 0; i < scenarioTokenData.quantity; i++) list.push(mythosToken.toJSON());
+            return list;
+        }, []));
     },
 
     drawMythosToken(investigatorElement) {
-        if (!this.mythosCup.ref().length) {
+        if (!this.mythosCup.quantity()) {
             this.generateMythosCup();
         }
 
         this.investigatorIndex = investigatorElement.getAttribute('data-index');
-        this.drawTokenFromMythosCup(token => {
-            this.addTokenToInvestigator(token, this.investigatorIndex);
-            this.renderScenario();
-        });
-
-    },
-
-    addTokenToInvestigator(token, investigatorIndex) {
-        this.investigators.ref().forEach(investigator => investigator.forEach(token => {
-            if (token.isBeforeLatest()) {
-                token.isBeforeLatest(false);
-            } else if (token.isLatest()) {
-                token.isLatest(false);
-                token.isBeforeLatest(true);
-            }
-        }));
-        this.investigators.ref()[investigatorIndex].push(token);
-        this.investigators.write();
-    },
-
-    addTokenToMythosCup(token) {
-        this.mythosCup.ref().push(token);
-        this.mythosCup.write();
-    },
-
-    drawTokenFromMythosCup(callback = function(){}) {
-        const tokenIndex = rand(0, this.mythosCup.ref().length - 1);
-        const [token] = this.mythosCup.ref().splice(tokenIndex, 1);
-        // this.addToOverallTokens(token);
-        this.mythosCup.write();
-
+        const token = this.mythosCup.draw();
         
-        const modalContent = `<img src="img/token_${token.getIcon()}.png" style="display: block; width: 33vw;">`;
+        const modalContent = `<img src="img/token_${token.getIcon()}.png" class="token-big">`;
         this.modalToken = token; // avoid always return the same token onclose
         modal(modalContent, {
             autoclose: 800,
             onClose: () => {
-                callback(this.modalToken);
+                this.investigatorsTokens.add(token, this.investigatorIndex);
+                this.renderScenario();
             }
         });
     },
-
-    // addToOverallTokens(token) {
-    //      badges
-    // },
-
     
 };
 

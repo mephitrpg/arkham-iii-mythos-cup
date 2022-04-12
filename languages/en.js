@@ -24,5 +24,15 @@ languages["en"] = {
         "SPECIFIC_MONSTERS": "Specific monsters",
         "ALL_TYPE_MONSTERS": "All <strong>%1</strong> monsters",
         "NO_MONSTERS": "No monsters",
+        "NEW_ROUND": "New round",
+        "REFILL_CUP": "Replenish cup",
+        "EDIT_CUP": "Edit cup",
+        "CLEAR_DATA": "Clear data",
+        "ARE_YOU_SURE": "Are you sure?",
+        "YES": "Yes",
+        "NO": "No",
+        "EDIT_TAP_TO_ADD": "Tap a token to add one of it.",
+        "EDIT_TAP_TO_REMOVE": "Tap a token to remove one of it.",
+        "EDIT_TAP_TO_REMOVE_INVESTIGATORS": "Tap a token to remove it."
     },
 };
