@@ -31,5 +31,8 @@ languages["it"] = {
         "ARE_YOU_SURE": "Sei sicuro?",
         "YES": "Sì",
         "NO": "No",
+        "EDIT_TAP_TO_ADD": "Tocca un segnalino per aggiungerne uno.",
+        "EDIT_TAP_TO_REMOVE": "Tocca un segnalino per rimuoverne uno.",
+        "EDIT_TAP_TO_REMOVE_INVESTIGATORS": "Tocca un segnalino per rimuoverlo."
     },
 };

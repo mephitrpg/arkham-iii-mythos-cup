@@ -82,27 +82,9 @@ body {
     background-color: black;
 }
 
-.card-name {
-    display: none;
+.vspace {
+    min-height: 10px;
 }
-
-.ocr .app-ui .card-name{ 
-    display: block;
-
-    text-align: center;
-    font-weight: bold;
-    font-size: 30px;
-    opacity: 0.5;
-    color: white;
-
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 
 .scenario-name {
     font-size: 24px;
@@ -207,28 +189,56 @@ body {
     font-size: 14px;
 }
 
+/* MYTHOS CUP */
+
+.cup-edit {
+    display: none;
+    text-align: center;
+}
+
+.mythos-cup {
+    background-color: #8b5e3b;
+}
+
 /* CUP TOKENS */
 
-.cup-tokens {
+.cup-tokens,
+.cup-tokens-add {
     list-style: none;
-    padding: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0;
     line-height: 1em;
     display: flex;
     width: 100%;
     text-align: center;
     font-size: 24px;
+    background-color: #8b5e3b;
 }
+.cup-tokens-add {
+    margin-bottom: 10px;
+    background-color: transparent;
+}
+
+.cup-edit-add {
+
+}
+
+.cup-edit-remove {
+    background-color: #8b5e3b;
+    padding: 10px 10px 0 10px;
+}
+
 .cup-token {
     flex-grow: 1;
     position: relative;
 }
 .cup-token .icon {
-    font-size: 32px;
+    font-size: 30px;
 }
 .cup-token-badge {
     position: absolute;
     right: 0;
-    background-color: #8b5e3b;
     border-radius: 50%;
     font-size: 10px;
     line-height: 16px;
@@ -246,14 +256,47 @@ body {
 /* CUP BAR */
 
 .cup-bar {
-    border: 1px solid #8b5e3b;
-    border-width: 1px 1px 0 1px;
-    background-color: #8b5e3b;
+    border: 10px solid #8b5e3b;
+    border-top-width: 0;
+    border-bottom-width: 0;
     font-size: 10px;
     line-height: 1.6em;
     color: #ffffff;
     text-align: center;
     background-position: 0px 0px;
+}
+
+/* CUP ARROW */
+
+.cup-arrow-area {
+    padding: 10px 0;
+}
+
+.cup-arrow {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 4px 0 0 0;
+}
+
+.cup-arrow::before {
+    display: block;
+    content: "\00a0";
+    border-top: 2px solid #fff;
+    width: 20px;
+    height: 10px;
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+}
+
+.cup-arrow::after {
+    display: block;
+    content: "\00a0";
+    border-top: 2px solid #fff;
+    width: 20px;
+    height: 10px;
+    -webkit-transform: rotate(-30deg);
+    transform: rotate(-30deg);
 }
 
 /* CUP BUTTONS */
@@ -280,3 +323,9 @@ body {
     margin-left: 0;
 }
 
+/* BIG TOKEN */
+
+.token-big {
+    display: block;
+    width: 50vw;
+}

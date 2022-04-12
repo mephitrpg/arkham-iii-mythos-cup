@@ -31,5 +31,8 @@ languages["es"] = {
         "ARE_YOU_SURE": "Estas seguro?",
         "YES": "Sí",
         "NO": "No",
+        "EDIT_TAP_TO_ADD": "Toque un token para agregar uno.",
+        "EDIT_TAP_TO_REMOVE": "Toque un token para eliminar uno.",
+        "EDIT_TAP_TO_REMOVE_INVESTIGATORS": "Toque un token para eliminarlo."
     },
 };

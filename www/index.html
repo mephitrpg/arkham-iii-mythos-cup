@@ -48,24 +48,49 @@
                     <label class="scenario-name">
                         <select id="scenario-selector" class="scenario-selector"></select>
                     </label>
-                    <ul id="cup-tokens-drawn" class="cup-tokens">
-                        <li class="cup-token" data-token-id="Spread Doom"><div class="icon ah3-doom"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-doom"></div></li>
-                        <li class="cup-token" data-token-id="Spawn Monster"><div class="icon ah3-monster"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-monster"></div></li>
-                        <li class="cup-token" data-token-id="Spawn Clue"><div class="icon ah3-clue"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-clue"></div></li>
-                        <li class="cup-token" data-token-id="Read Headline"><div class="icon ah3-headline"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-headline"></div></li>
-                        <li class="cup-token" data-token-id="Gate Burst"><div class="icon ah3-gate-burst"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-gate-burst"></div></li>
-                        <li class="cup-token" data-token-id="Reckoning"><div class="icon ah3-reckoning"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-reckoning"></div></li>
-                        <li class="cup-token" data-token-id="Spread Terror"><div class="icon ah3-terror"></div><div class="cup-token-badge"></div><div  class="cup-token-tot" id="cup-token-terror"></div></li>
-                        <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank-empty"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-blank"></div></li>
-                    </ul>
-                    <div id="cup-bar" class="cup-bar">
-                        <div id="cup-bar-text" class="cup-bar-text"></div>
-                        <div id="cup-bar-inner" class="cup-bar-inner"></div>
+                    <div class="vspace"></div>
+                    <div id="cup-edit" class="cup-edit">
+                        <div data-lang="EDIT_TAP_TO_ADD" class="cup-edit-add"></div>
+                        <ul id="cup-tokens-add" class="cup-tokens-add">
+                            <li class="cup-token" data-token-id="Spread Doom"><div class="icon ah3-doom"></div></li>
+                            <li class="cup-token" data-token-id="Spawn Monster"><div class="icon ah3-monster"></div></li>
+                            <li class="cup-token" data-token-id="Spawn Clue"><div class="icon ah3-clue"></div></li>
+                            <li class="cup-token" data-token-id="Read Headline"><div class="icon ah3-headline"></div></li>
+                            <li class="cup-token" data-token-id="Gate Burst"><div class="icon ah3-gate-burst"></div></li>
+                            <li class="cup-token" data-token-id="Reckoning"><div class="icon ah3-reckoning"></div></li>
+                            <li class="cup-token" data-token-id="Spread Terror"><div class="icon ah3-terror"></div></li>
+                            <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank-empty"></div></li>
+                        </ul>
+                        <div class="cup-edit-remove">
+                            <div data-lang="EDIT_TAP_TO_REMOVE"></div>
+                        </div>
+                    </div>
+                <div id="mythos-cup" class="mythos-cup">
+                        <ul id="cup-tokens-drawn" class="cup-tokens">
+                            <li class="cup-token" data-token-id="Spread Doom"><div class="icon ah3-doom"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-doom"></div></li>
+                            <li class="cup-token" data-token-id="Spawn Monster"><div class="icon ah3-monster"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-monster"></div></li>
+                            <li class="cup-token" data-token-id="Spawn Clue"><div class="icon ah3-clue"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-clue"></div></li>
+                            <li class="cup-token" data-token-id="Read Headline"><div class="icon ah3-headline"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-headline"></div></li>
+                            <li class="cup-token" data-token-id="Gate Burst"><div class="icon ah3-gate-burst"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-gate-burst"></div></li>
+                            <li class="cup-token" data-token-id="Reckoning"><div class="icon ah3-reckoning"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-reckoning"></div></li>
+                            <li class="cup-token" data-token-id="Spread Terror"><div class="icon ah3-terror"></div><div class="cup-token-badge"></div><div  class="cup-token-tot" id="cup-token-terror"></div></li>
+                            <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank-empty"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-blank"></div></li>
+                        </ul>
+                        <div id="cup-bar" class="cup-bar">
+                            <div id="cup-bar-text" class="cup-bar-text"></div>
+                            <div id="cup-bar-inner" class="cup-bar-inner"></div>
+                        </div>
+                        <div id="cup-arrow-area" class="cup-arrow-area">
+                            <div id="cup-arrow" class="cup-arrow"></div>
+                        </div>
+                    </div>
+                    <div id ="message-drawn-tokens" style="text-align: center; display: none;">
+                        <p data-lang="EDIT_TAP_TO_REMOVE_INVESTIGATORS"></p>
                     </div>
                     <ul id="investigators" class="investigators"></ul>
                     <div class="cup-buttons">
-                        <button class="btn" id="new-round-button">New round</button>
-                        <button class="btn" id="refill-cup-button">Refill cup</button>
+                        <button class="btn" id="new-round-button" data-lang="NEW_ROUND"></button>
+                        <button class="btn" id="refill-cup-button" data-lang="REFILL_CUP"></button>
                     </div>
                     <div class="apart"></div>
                 </div>
@@ -163,6 +188,9 @@
         <script src="js/lib/MythosToken.js"></script>
         <script src="js/lib/Scenario.js"></script>
         <script src="js/lib/StoredObject.js"></script>
+        <script src="js/lib/InvestigatorsTokens.js"></script>
+        <script src="js/lib/MythosCup.js"></script>
+        <script src="js/lib/MythosCupMetadata.js"></script>
         
         <!--
         <script>
