@@ -1,7 +1,7 @@
 {
     "theme_color": "#000000",
     "background_color": "#000000",
-    "display": "fullscreen",
+    "display": "standalone",
     "scope": "/",
     "start_url": "/",
     "name": "Arkham 3 Mythos Cup",
