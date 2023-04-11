@@ -14,7 +14,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Abyssal Servant", quantity: 1 },
@@ -52,7 +52,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "R'lyeh Guardian", quantity: 1 },
@@ -86,7 +86,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Masked Ones", quantity: 1 },
@@ -138,7 +138,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Altered Beast", quantity: 2 },
@@ -180,7 +180,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Brawling Riot", quantity: 1 },
@@ -225,7 +225,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Cerebral Extractor", quantity: 1 },
@@ -262,7 +262,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Shoreline Brute", quantity: 1 },
@@ -299,7 +299,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Ravenous Predator", quantity: 1 },
@@ -340,7 +340,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Guardian Beast", quantity: 1 },
@@ -386,7 +386,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Altered Beast", quantity: 2 },
@@ -421,7 +421,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Flesh-Eater", quantity: 2 },
@@ -466,7 +466,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Abyssal Servant", quantity: 1 },
@@ -506,7 +506,7 @@ let scenarios = [
           en: "Monster Deck",
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
-          de: "Monster Deck",
+          de: "Monsterstapel",
         },
         monsters: [
           { id: "Bloody Titan", quantity: 1 },
