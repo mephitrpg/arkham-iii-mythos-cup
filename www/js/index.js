@@ -198,7 +198,9 @@ function renameSelectorOptions(options) {
     const selectorElement  = options.element;
     const selectorOptions  = options.options.map(item => Array.isArray(item) ? item : [item, item]);
 
-    selectorOptions.sort((a, b) => a[0].localeCompare(b[0], app.lang));
+    selectorOptions.sort((a, b) => {
+        return a[0].localeCompare(b[0], app.lang);
+    });
 
     _.each(selectorElement.options, opt => {
         const match = _.find(selectorOptions, pair => pair[1] === opt.value);
@@ -260,7 +262,7 @@ function modal(content, options) {
     if (!exists) {
         parentTab.appendChild(overlayElement);
         overlayElement.addEventListener('click', (event) => {
-            if (closeOnOverlayClick && event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
+            if (options.closeOnOverlayClick && event.target === overlayElement) modal(null, Object.assign({}, options, {open: false}));
         });
     }
 
@@ -409,7 +411,8 @@ var app = {
         this.addTokensElement          = document.getElementById('cup-tokens-add');
         this.drawnElement              = document.getElementById('cup-tokens-drawn');
         this.cupBarElement             = document.getElementById('cup-bar');
-        
+        this.investigatorIndex         = undefined;
+
         document.querySelectorAll('[data-tab-key]').forEach(tabElement => {
             const tabKey = tabElement.getAttribute('data-tab-key');
             this.tabElements[tabKey] = document.querySelector('[data-tab-key="' + tabKey + '"]');
@@ -483,7 +486,7 @@ var app = {
         document.getElementById('new-round-button').addEventListener('click', () => {
             modalPrompt(()=>{
                 this.investigatorsTokens.ref().forEach(investigator => {
-                    investigator.forEach(token => {
+                    investigator.mythosTokens.forEach(token => {
                         token.setApart(true);
                     });
                 });
@@ -621,13 +624,32 @@ var app = {
             let investigatorsList = '';
             const q = Number(options.readOption('investigatorsQuantity'));
             for(let i = 0; i < q; i++) {
+                const tokens = this.investigatorsTokens.getByInvestigator(i);
+                const tokensLen = tokens.length;
+                const drawn = this.investigatorsTokens.drawn(i) || '';
+                const badge = String.fromCharCode(65 + i); // A B C ...
                 investigatorsList += `
                 <li class="investigator" data-index="${i}">
-                    <div class="investigator-title"><span class="icon ah3-investigator"></span>&nbsp;<sub>${i+1}</sub></div>
-                    <div class="investigator-tokens">${this.investigatorsTokens.ref()[i].map((token, t, arr) => {
+                    <div class="investigator-title">
+                        <div><span class="icon ah3-investigator"></span></div>
+                        <div>&nbsp;<sub>${badge}</sub></div>
+                        <div></div>
+                    </div>
+                    <div class="investigator-tokens">${tokens.map((token, t, arr) => {
                         const beforelast = token.isBeforeLatest() ? 'investigator-token-latest' : '' ;
                         const apart = token.setApart() ? 'investigator-token-apart' : '';
-                        return `<div class="investigator-token ${beforelast} ${apart}" data-index="${t}"><span class="icon ah3-${token.getIcon()}"></span></div>`;
+                        let result = '';
+                        if (drawn) {
+                            if (tokensLen - drawn === t || (t === 0 && drawn > tokensLen)) {
+                                result += `
+                                <div class="investigator-token-separator">
+                                    <div class="investigator-token-separator-number">${drawn}</div>
+                                    <div class="investigator-token-separator-arrow">▶</div>
+                                </div>`;
+                            }
+                        }
+                        result += `<div class="investigator-token ${beforelast} ${apart}" data-index="${t}"><span class="icon ah3-${token.getIcon()}"></span></div>`;
+                        return result;
                     }).join('')}</div>
                     <div class="investigator-actions">
                         <button data-index="${i}">+</button>
@@ -640,11 +662,11 @@ var app = {
             // animate
 
             for(let i = 0; i < q; i++) {
-                this.investigatorsTokens.ref()[i].forEach((token, t) => {
+                this.investigatorsTokens.getByInvestigator(i).forEach((token, t) => {
                     if (!token.isLatest()) return;
                     const investigatorTokensElement = this.investigatorsElement.querySelector(`.investigator[data-index="${i}"] .investigator-tokens`);
                     setTimeout(() => {
-                        const children = investigatorTokensElement.children;
+                        const children = investigatorTokensElement.querySelectorAll('.investigator-token');
                         document.querySelector('.investigator-token-latest')?.classList.remove('investigator-token-latest');
                         children[t].classList.add('investigator-token-latest');
                     }, 0);
@@ -673,7 +695,6 @@ var app = {
     
     deleteTokenAtIndexFromInvestigator(tokenIndex, investigatorIndex) {
         const token = this.investigatorsTokens.removeAt(tokenIndex, investigatorIndex);
-        console.log(token.getId(),"-")
         this.metadata.decrement(token.getId());
     },
     
@@ -688,11 +709,16 @@ var app = {
     },
 
     drawMythosToken(investigatorElement) {
+        const investigatorIndex = this.investigatorIndex = Number(investigatorElement.getAttribute('data-index'));
+
         if (!this.mythosCup.quantity()) {
+            const d = this.investigatorsTokens.drawn(investigatorIndex);
+            console.log('d',this.investigatorsTokens.drawn(investigatorIndex))
             this.generateMythosCup();
+            this.investigatorsTokens.drawn(investigatorIndex, d);
+            console.log('d',this.investigatorsTokens.drawn(investigatorIndex))
         }
 
-        this.investigatorIndex = investigatorElement.getAttribute('data-index');
         const token = this.mythosCup.draw();
         
         const modalContent = `<img src="img/token_${token.getIcon()}.png" class="token-big">`;

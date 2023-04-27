@@ -5,7 +5,8 @@ let expansions = [
             it: "Gioco Base",
             en: "Base Game",
             es: "Juego Base",
-            de: "Grundspiel"
+            de: "Grundspiel",
+            fr: "Jeu de Base"
         },
         release: 2018
     },
@@ -15,7 +16,8 @@ let expansions = [
             it: "Nel Cuore della Notte",
             en: "Dead of Night",
             es: "Noche Cerrada",
-            de: "Mitternacht"
+            de: "Mitternacht",
+            fr: "Terreurs Nocturnes"
         },
         release: 2019
     },
@@ -25,7 +27,8 @@ let expansions = [
             it: "Abissi Oscuri",
             en: "Under Dark Waves",
             es: "Mareas Tenebrosas",
-            de: "Dunkle Fluten"
+            de: "Dunkle Fluten",
+            fr: "Profondeurs insondables"
         },
         release: 2020
     },
@@ -35,7 +38,8 @@ let expansions = [
             it: "I Segreti dell'Ordine",
             en: "Secrets of the Order",
             es: "Secretos de la Orden",
-            de: "Geheimnisse des Ordens"
+            de: "Geheimnisse des Ordens",
+            fr: "Les Secrets de l'Ordre"
         },
         release: 2021
     },

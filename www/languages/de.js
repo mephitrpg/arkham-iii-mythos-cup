@@ -3,8 +3,6 @@ languages["de"] = {
     "default": true,
     "name": "Deutsch",
     "strings": {
-        "SOUNDS": "Töne",
-        "DEFAULT_OCR_TEXT": "Monster umrahmen",
         "TAB_BAG": "Mythos",
         "TAB_OPTIONS": "Optionen",
         "OPTION_LANGUAGE_TITLE" : "Sprache",
@@ -26,7 +24,6 @@ languages["de"] = {
         "NO_MONSTERS": "Keine Monster",
         "NEW_ROUND": "Neue Runde",
         "REFILL_CUP": "Beutel neu auffüllen",
-        "EDIT_CUP": "Beutel bearbeiten",
         "CLEAR_DATA": "Daten löschen",
         "ARE_YOU_SURE": "Bist Du sicher?",
         "YES": "Ja",

@@ -3,8 +3,6 @@ languages["it"] = {
     "default": true,
     "name": "Italiano",
     "strings": {
-        "SOUNDS": "Suoni",
-        "DEFAULT_OCR_TEXT": "Inquadra un Mostro",
         "TAB_BAG": "Miti",
         "TAB_OPTIONS": "Opzioni",
         "OPTION_LANGUAGE_TITLE" : "Lingua",
@@ -26,7 +24,6 @@ languages["it"] = {
         "NO_MONSTERS": "Nessun mostro",
         "NEW_ROUND": "Nuovo round",
         "REFILL_CUP": "Rifornire sacchetto",
-        "EDIT_CUP": "Modifica sacchetto",
         "CLEAR_DATA": "Cancella dati",
         "ARE_YOU_SURE": "Sei sicuro?",
         "YES": "Sì",

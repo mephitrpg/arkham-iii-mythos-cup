@@ -3,8 +3,6 @@ languages["es"] = {
     "default": true,
     "name": "Español",
     "strings": {
-        "SOUNDS": "Sonidos",
-        "DEFAULT_OCR_TEXT": "Encuadrar un monstruo",
         "TAB_BAG": "Mitos",
         "TAB_OPTIONS": "Opciones",
         "OPTION_LANGUAGE_TITLE" : "Idioma",
@@ -26,7 +24,6 @@ languages["es"] = {
         "NO_MONSTERS": "Ningún monstruo",
         "NEW_ROUND": "Nueva ronda",
         "REFILL_CUP": "Repones reserva",
-        "EDIT_CUP": "Modificas reserva",
         "CLEAR_DATA": "Borrar datos",
         "ARE_YOU_SURE": "Estas seguro?",
         "YES": "Sí",

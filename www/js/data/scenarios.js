@@ -1,11 +1,11 @@
 let scenarios = [
   {
-    id: "approach-of-azathoth",
     name: {
       en: "Approach of Azathoth",
       it: "La Venuta di Azathoth",
       es: "La llegada de Azathoth",
       de: "Das Erwachen des Azathoth",
+      fr: "La Venue d'Azathoth",
     },
     expansion: "Base Game",
     monsterGropus: [
@@ -15,6 +15,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Abyssal Servant", quantity: 1 },
@@ -44,6 +45,7 @@ let scenarios = [
       it: "Echi dal Profondo",
       es: "Ecos de las profundidades",
       de: "Echos aus der Tiefe",
+      fr: "Les Echos des Profondeurs",
     },
     expansion: "Base Game",
     monsterGropus: [
@@ -53,6 +55,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "R'lyeh Guardian", quantity: 1 },
@@ -78,6 +81,7 @@ let scenarios = [
       it: "Il Banchetto di Umôrdhoth",
       es: "Festín para Umôrdhoth",
       de: "Umôrdhoths Festmahl",
+      fr: "Un Festin pour Umôrdhoth",
     },
     expansion: "Base Game",
     monsterGropus: [
@@ -87,6 +91,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Masked Ones", quantity: 1 },
@@ -102,7 +107,8 @@ let scenarios = [
           en: "Worshipers of Umôrdhoth",
           it: "Adoratori di Umôrdhoth",
           es: "Adoradores de Umôrdhoth",
-          de: ""
+          de: "Anbeter von Umôrdhoth",
+          fr: "Adorateurs d'Umôrdhoth",
         },
         monsters: [
           { id: "Alma Hill", quantity: 1 },
@@ -130,6 +136,7 @@ let scenarios = [
       it: "Il Velo del Crepuscolo",
       es: "El velo del crepúsculo",
       de: "Schleier der Dämmerung",
+      fr: "Le Voile du Crépuscule",
     },
     expansion: "Base Game",
     monsterGropus: [
@@ -139,6 +146,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Altered Beast", quantity: 2 },
@@ -151,7 +159,8 @@ let scenarios = [
           en: "Set aside",
           it: "Messi da parte",
           es: "Apartar a un lado",
-          de: "Beiseite legen"
+          de: "Beiseite legen",
+          fr: "Mettre de côté",
         },
         monsters: [{ type: "Lodge", quantity: "all" }],
       },
@@ -172,6 +181,7 @@ let scenarios = [
       it: "Spari nella Notte",
       es: "Disparos en la oscuridad",
       de: "Schüsse im Dunkeln",
+      fr: "Des Tirs dans la Nuit",
     },
     expansion: "Dead of Night",
     monsterGropus: [
@@ -181,6 +191,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Brawling Riot", quantity: 1 },
@@ -193,11 +204,11 @@ let scenarios = [
         ],
       },
       {
-        name: { en: "O'Bannion", it: "O'Bannion", es: "O'Bannion", de: "O'Bannion"  },
+        name: { en: "O'Bannion", it: "O'Bannion", es: "O'Bannion", de: "O'Bannion", fr: "O'Bannion" },
         monsters: [{ type: "O'Bannion", quantity: "all" }],
       },
       {
-        name: { en: "Sheldon", it: "Sheldon", es: "Sheldon", de: "Sheldon" },
+        name: { en: "Sheldon", it: "Sheldon", es: "Sheldon", de: "Sheldon", fr: "Sheldon" },
         monsters: [{ type: "Sheldon", quantity: "all" }],
       },
     ],
@@ -217,6 +228,7 @@ let scenarios = [
       it: "Il Silenzio di Tsathoggua",
       es: "El silencio de Tsathoggua",
       de: "Das Schweigen des Tsathoggua",
+      fr: "Le Silence de Tsathoggua",
     },
     expansion: "Dead of Night",
     monsterGropus: [
@@ -226,6 +238,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Cerebral Extractor", quantity: 1 },
@@ -254,6 +267,7 @@ let scenarios = [
       it: "Sogni di R'lyeh",
       es: "Sueños de R'lyeh",
       de: "Träume von R'lyeh",
+      fr: "Rêves de R'Lyeh",
     },
     expansion: "Under Dark Waves",
     monsterGropus: [
@@ -263,6 +277,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Shoreline Brute", quantity: 1 },
@@ -291,6 +306,7 @@ let scenarios = [
       it: "La Progenie di Ithaqua",
       es: "La progenie de Ithaqua",
       de: "Ithaquas Kinder",
+      fr: "La Descendance d'Ithaqua",
     },
     expansion: "Under Dark Waves",
     monsterGropus: [
@@ -300,6 +316,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Ravenous Predator", quantity: 1 },
@@ -332,6 +349,7 @@ let scenarios = [
       it: "La Lanterna Pallida",
       es: "La Lámpara Mortecina",
       de: "Die bleiche Laterne",
+      fr: "La Lanterne Pâle",
     },
     expansion: "Under Dark Waves",
     monsterGropus: [
@@ -341,6 +359,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Guardian Beast", quantity: 1 },
@@ -357,7 +376,8 @@ let scenarios = [
           en: "Set aside",
           it: "Messi da parte",
           es: "Apartar a un lado",
-          de: "Beiseite legen"
+          de: "Beiseite legen",
+          fr: "Mettre de côté",
         },
         monsters: [{ id: "Declan Pearce", quantity: 1 }],
       },
@@ -378,6 +398,7 @@ let scenarios = [
       it: "I Tiranni della Rovina",
       es: "Tiranos de la desolación",
       de: "Tyrannen des Untergangs",
+      fr: "Tyrans de l'Abîme",
     },
     expansion: "Under Dark Waves",
     monsterGropus: [
@@ -387,6 +408,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Altered Beast", quantity: 2 },
@@ -413,6 +435,7 @@ let scenarios = [
       it: "Vincolo di Servitù",
       es: "Obligados a servir",
       de: "Ewige Knechtschaft",
+      fr: "Asservis",
     },
     expansion: "Secrets of the Order",
     monsterGropus: [
@@ -422,6 +445,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Flesh-Eater", quantity: 2 },
@@ -437,7 +461,8 @@ let scenarios = [
           en: "Set aside",
           it: "Messi da parte",
           es: "Apartar a un lado",
-          de: "Beiseite legen"
+          de: "Beiseite legen",
+          fr: "Mettre de côté",
         },
         monsters: [{ type: "Lodge", quantity: "all" }],
       },
@@ -458,6 +483,7 @@ let scenarios = [
       it: "Il Lamento dei Morti",
       es: "Los muertos gritan",
       de: "Die Toten schweigen nicht",
+      fr: "Le Cri des Morts",
     },
     expansion: "Secrets of the Order",
     monsterGropus: [
@@ -467,6 +493,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Abyssal Servant", quantity: 1 },
@@ -498,6 +525,7 @@ let scenarios = [
       it: "La Chiave e la Porta",
       es: "La llave y la puerta",
       de: "Der Schlüssel und das Tor",
+      fr: "La Clef et la Porte",
     },
     expansion: "Secrets of the Order",
     monsterGropus: [
@@ -507,6 +535,7 @@ let scenarios = [
           it: "Mazzo dei Mostri",
           es: "Mazo de Monstruos",
           de: "Monsterstapel",
+          fr: "Paquet Monstre",
         },
         monsters: [
           { id: "Bloody Titan", quantity: 1 },
