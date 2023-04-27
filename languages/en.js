@@ -3,8 +3,6 @@ languages["en"] = {
     "default": true,
     "name": "English",
     "strings": {
-        "SOUNDS": "Sounds",
-        "DEFAULT_OCR_TEXT": "Frame a Monster",
         "TAB_BAG": "Mythos",
         "TAB_OPTIONS": "Options",
         "OPTION_LANGUAGE_TITLE" : "Language",
@@ -26,7 +24,6 @@ languages["en"] = {
         "NO_MONSTERS": "No monsters",
         "NEW_ROUND": "New round",
         "REFILL_CUP": "Replenish cup",
-        "EDIT_CUP": "Edit cup",
         "CLEAR_DATA": "Clear data",
         "ARE_YOU_SURE": "Are you sure?",
         "YES": "Yes",

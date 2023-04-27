@@ -150,6 +150,8 @@ body {
     display: flex;
 }
 .investigator-title {
+    display: grid;
+    grid-template-columns: auto auto;
     padding-right: 10px;
 }
 .investigator-tokens {
@@ -170,6 +172,29 @@ body {
     border-radius: 50%;
     -webkit-transition-duration: 1000ms; 
     transition-duration: 1000ms; 
+}
+.investigator-token-separator {
+    float: left;
+    background-color: transparent !important;
+    margin-top: -6px;
+    margin-right: 5px;
+    position: relative;
+    font-size: 39px;
+    line-height: 39px;
+    pointer-events: none;
+}
+.investigator-token-separator-number {
+    position: absolute;
+    top: 2px;
+    bottom: 0;
+    left: -8px;
+    right: 0;
+    color: #000000;
+    font-size: 10px;
+}
+.investigator-token-separator-arrow {
+    margin-left: -3px;
+    margin-right: -3px;
 }
 .investigator-token .icon.ah3-blank-empty {
     color: transparent;
