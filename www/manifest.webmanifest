@@ -4,9 +4,10 @@
     "display": "standalone",
     "scope": "./",
     "start_url": "./",
-    "name": "Arkham 3 Mythos Cup",
-    "short_name": "ah3mcup",
+    "name": "Arkham III Mythos Cup",
+    "short_name": "Arkham 3 MC",
     "description": "A digital version of the Arkham Horror 3rd Edition Mythos Cup",
+    "author": "Jure di Mephit",
     "icons": [
         {
             "src": "icon-192x192.png",

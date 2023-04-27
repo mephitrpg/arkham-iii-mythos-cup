@@ -18,8 +18,9 @@
     under the License.
 -->
 <html>
-    <head>
-        <!--
+
+<head>
+    <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
             https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
         Some notes:
@@ -28,176 +29,225 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta charset="utf-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="manifest" href="manifest.webmanifest">
-        <link rel="stylesheet" type="text/css" href="fonts/arkham-horror-3rd-edition-icons/styles.css">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <link rel="stylesheet" type="text/css" href="css/switch.css">
-        <link rel="stylesheet" type="text/css" href="css/tab-bar.css">
-        <link rel="stylesheet" type="text/css" href="css/selector.css">
-        <title>Arkham III Mythos Cup</title>
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
-    </head>
-    <body>
-        <div class="app" id="app" style="visibility: hidden;">
-            <!-- <div id="snapshot" class="snapshot"></div> -->
-            <div id="app-ui" data-tab-content-key="bag" class="js-tab-content tab-content app-ui active">
-                <div class="app-content">
-                    <label class="scenario-name">
-                        <select id="scenario-selector" class="scenario-selector"></select>
-                    </label>
-                    <div class="vspace"></div>
-                    <div id="cup-edit" class="cup-edit">
-                        <div data-lang="EDIT_TAP_TO_ADD" class="cup-edit-add"></div>
-                        <ul id="cup-tokens-add" class="cup-tokens-add">
-                            <li class="cup-token" data-token-id="Spread Doom"><div class="icon ah3-doom"></div></li>
-                            <li class="cup-token" data-token-id="Spawn Monster"><div class="icon ah3-monster"></div></li>
-                            <li class="cup-token" data-token-id="Spawn Clue"><div class="icon ah3-clue"></div></li>
-                            <li class="cup-token" data-token-id="Read Headline"><div class="icon ah3-headline"></div></li>
-                            <li class="cup-token" data-token-id="Gate Burst"><div class="icon ah3-gate-burst"></div></li>
-                            <li class="cup-token" data-token-id="Reckoning"><div class="icon ah3-reckoning"></div></li>
-                            <li class="cup-token" data-token-id="Spread Terror"><div class="icon ah3-terror"></div></li>
-                            <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank-empty"></div></li>
-                        </ul>
-                        <div class="cup-edit-remove">
-                            <div data-lang="EDIT_TAP_TO_REMOVE"></div>
-                        </div>
-                    </div>
-                <div id="mythos-cup" class="mythos-cup">
-                        <ul id="cup-tokens-drawn" class="cup-tokens">
-                            <li class="cup-token" data-token-id="Spread Doom"><div class="icon ah3-doom"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-doom"></div></li>
-                            <li class="cup-token" data-token-id="Spawn Monster"><div class="icon ah3-monster"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-monster"></div></li>
-                            <li class="cup-token" data-token-id="Spawn Clue"><div class="icon ah3-clue"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-clue"></div></li>
-                            <li class="cup-token" data-token-id="Read Headline"><div class="icon ah3-headline"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-headline"></div></li>
-                            <li class="cup-token" data-token-id="Gate Burst"><div class="icon ah3-gate-burst"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-gate-burst"></div></li>
-                            <li class="cup-token" data-token-id="Reckoning"><div class="icon ah3-reckoning"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-reckoning"></div></li>
-                            <li class="cup-token" data-token-id="Spread Terror"><div class="icon ah3-terror"></div><div class="cup-token-badge"></div><div  class="cup-token-tot" id="cup-token-terror"></div></li>
-                            <li class="cup-token" data-token-id="Blank"><div class="icon ah3-blank-empty"></div><div class="cup-token-badge"></div><div class="cup-token-tot" id="cup-token-blank"></div></li>
-                        </ul>
-                        <div id="cup-bar" class="cup-bar">
-                            <div id="cup-bar-text" class="cup-bar-text"></div>
-                            <div id="cup-bar-inner" class="cup-bar-inner"></div>
-                        </div>
-                        <div id="cup-arrow-area" class="cup-arrow-area">
-                            <div id="cup-arrow" class="cup-arrow"></div>
-                        </div>
-                    </div>
-                    <div id ="message-drawn-tokens" style="text-align: center; display: none;">
-                        <p data-lang="EDIT_TAP_TO_REMOVE_INVESTIGATORS"></p>
-                    </div>
-                    <ul id="investigators" class="investigators"></ul>
-                    <div class="cup-buttons">
-                        <button class="btn" id="new-round-button" data-lang="NEW_ROUND"></button>
-                        <button class="btn" id="refill-cup-button" data-lang="REFILL_CUP"></button>
-                    </div>
-                    <div class="apart"></div>
-                </div>
-            </div>
-            <div id="app-options" data-tab-content-key="options" class="js-tab-content tab-content app-options">
-                <div class="app-content">
-                    <div class="options-row">
-                        <div>
-                            <div data-lang="OPTION_LANGUAGE_TITLE"></div>
-                            <div class="description" data-lang="OPTION_LANGUAGE_DESCRIPTION"></div>
-                        </div>
-                        <div class="selector-wrapper">
-                            <label class="selector">
-                                <select id="options-lang-selector"></select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="options-row">
-                        <div>
-                            <div data-lang="OPTION_INVESTIGATORS_QUANTITY_TITLE"></div>
-                            <div class="description" data-lang="OPTION_INVESTIGATORS_QUANTITY_DESCRIPTION"></div>
-                        </div>
-                        <div class="selector-wrapper">
-                            <label class="selector">
-                                <select id="options-investigators-quantity-selector"></select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="options-row">
-                        <div>
-                            <div data-lang="OPTION_EXPANSIONS_TITLE"></div>
-                            <div class="description" data-lang="OPTION_EXPANSIONS_DESCRIPTION"></div>
-                        </div>
-                        <div class="switch-wrapper">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="tab-bar" class="tab-bar">
-                <div id="tab-bar-bag" data-lang="TAB_BAG" data-tab-key="bag"></div>
-                <div id="tab-bar-options" data-lang="TAB_OPTIONS" data-tab-key="options"></div>
-            </div>        
-        </div>
-        <script src="cordova.js"></script>
-        <script src="js/vendor/underscore/underscore-min.js"></script>
-        <script src="js/vendor/underscore.string/underscore.string.min.js"></script>
-        <script src="js/vendor/jquery/jquery-3.6.0.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" type="text/css" href="fonts/arkham-horror-3rd-edition-icons/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/switch.css">
+    <link rel="stylesheet" type="text/css" href="css/tab-bar.css">
+    <link rel="stylesheet" type="text/css" href="css/selector.css">
+    <title>Arkham III Mythos Cup</title>
+</head>
 
-        <!--
+<body>
+    <div class="app" id="app" style="visibility: hidden;">
+        <!-- <div id="snapshot" class="snapshot"></div> -->
+        <div id="app-ui" data-tab-content-key="bag" class="js-tab-content tab-content app-ui active">
+            <div class="app-content">
+                <label class="scenario-name">
+                    <select id="scenario-selector" class="scenario-selector"></select>
+                </label>
+                <div class="vspace"></div>
+                <div id="cup-edit" class="cup-edit">
+                    <div data-lang="EDIT_TAP_TO_ADD" class="cup-edit-add"></div>
+                    <ul id="cup-tokens-add" class="cup-tokens-add">
+                        <li class="cup-token" data-token-id="Spread Doom">
+                            <div class="icon ah3-doom"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Spawn Monster">
+                            <div class="icon ah3-monster"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Spawn Clue">
+                            <div class="icon ah3-clue"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Read Headline">
+                            <div class="icon ah3-headline"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Gate Burst">
+                            <div class="icon ah3-gate-burst"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Reckoning">
+                            <div class="icon ah3-reckoning"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Spread Terror">
+                            <div class="icon ah3-terror"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Blank">
+                            <div class="icon ah3-blank-empty"></div>
+                        </li>
+                    </ul>
+                    <div class="cup-edit-remove">
+                        <div data-lang="EDIT_TAP_TO_REMOVE"></div>
+                    </div>
+                </div>
+                <div id="mythos-cup" class="mythos-cup">
+                    <ul id="cup-tokens-drawn" class="cup-tokens">
+                        <li class="cup-token" data-token-id="Spread Doom">
+                            <div class="icon ah3-doom"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-doom"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Spawn Monster">
+                            <div class="icon ah3-monster"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-monster"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Spawn Clue">
+                            <div class="icon ah3-clue"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-clue"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Read Headline">
+                            <div class="icon ah3-headline"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-headline"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Gate Burst">
+                            <div class="icon ah3-gate-burst"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-gate-burst"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Reckoning">
+                            <div class="icon ah3-reckoning"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-reckoning"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Spread Terror">
+                            <div class="icon ah3-terror"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-terror"></div>
+                        </li>
+                        <li class="cup-token" data-token-id="Blank">
+                            <div class="icon ah3-blank-empty"></div>
+                            <div class="cup-token-badge"></div>
+                            <div class="cup-token-tot" id="cup-token-blank"></div>
+                        </li>
+                    </ul>
+                    <div id="cup-bar" class="cup-bar">
+                        <div id="cup-bar-text" class="cup-bar-text"></div>
+                        <div id="cup-bar-inner" class="cup-bar-inner"></div>
+                    </div>
+                    <div id="cup-arrow-area" class="cup-arrow-area">
+                        <div id="cup-arrow" class="cup-arrow"></div>
+                    </div>
+                </div>
+                <div id="message-drawn-tokens" style="text-align: center; display: none;">
+                    <p data-lang="EDIT_TAP_TO_REMOVE_INVESTIGATORS"></p>
+                </div>
+                <ul id="investigators" class="investigators"></ul>
+                <div class="cup-buttons">
+                    <button class="btn" id="new-round-button" data-lang="NEW_ROUND"></button>
+                    <button class="btn" id="refill-cup-button" data-lang="REFILL_CUP"></button>
+                </div>
+                <div class="apart"></div>
+            </div>
+        </div>
+        <div id="app-options" data-tab-content-key="options" class="js-tab-content tab-content app-options">
+            <div class="app-content">
+                <div class="options-row">
+                    <div>
+                        <div data-lang="OPTION_LANGUAGE_TITLE"></div>
+                        <div class="description" data-lang="OPTION_LANGUAGE_DESCRIPTION"></div>
+                    </div>
+                    <div class="selector-wrapper">
+                        <label class="selector">
+                            <select id="options-lang-selector"></select>
+                        </label>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div>
+                        <div data-lang="OPTION_INVESTIGATORS_QUANTITY_TITLE"></div>
+                        <div class="description" data-lang="OPTION_INVESTIGATORS_QUANTITY_DESCRIPTION"></div>
+                    </div>
+                    <div class="selector-wrapper">
+                        <label class="selector">
+                            <select id="options-investigators-quantity-selector"></select>
+                        </label>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div>
+                        <div data-lang="OPTION_EXPANSIONS_TITLE"></div>
+                        <div class="description" data-lang="OPTION_EXPANSIONS_DESCRIPTION"></div>
+                    </div>
+                    <div class="switch-wrapper">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab-bar" class="tab-bar">
+            <div id="tab-bar-bag" data-lang="TAB_BAG" data-tab-key="bag"></div>
+            <div id="tab-bar-options" data-lang="TAB_OPTIONS" data-tab-key="options"></div>
+        </div>
+    </div>
+    <script src="cordova.js"></script>
+    <script src="js/vendor/underscore/underscore-min.js"></script>
+    <script src="js/vendor/underscore.string/underscore.string.min.js"></script>
+    <script src="js/vendor/jquery/jquery-3.6.0.min.js"></script>
+
+    <!--
         First, we load Globalize's dependencies (`cldrjs` and its supplemental
         module).
         -->
-        <!--
+    <!--
         <script src="js/vendor/cldrjs/dist/cldr.js"></script>
         <script src="js/vendor/cldrjs/dist/cldr/event.js"></script>
         <script src="js/vendor/cldrjs/dist/cldr/supplemental.js"></script>
         -->
 
-        <!--
+    <!--
         Next, we load Globalize and its modules. Note they are already available on
         this repository. If it's not, read Usage on Getting Started on the root's
         README.md.
         -->
-        <!--
+    <!--
         <script src="js/vendor/globalize/dist/globalize.js"></script>
         <script src="js/vendor/globalize/dist/globalize/message.js"></script>
         <script src="js/vendor/globalize/dist/globalize/number.js"></script>
         <script src="js/vendor/globalize/dist/globalize/plural.js"></script>
         -->
 
-        <!-- Load after globalize/number.js -->
-        <!--
+    <!-- Load after globalize/number.js -->
+    <!--
         <script src="js/vendor/globalize/dist/globalize/date.js"></script>
         <script src="js/vendor/globalize/dist/globalize/currency.js"></script>
         -->
 
-        <!-- Load after globalize/number.js and globalize/plural.js-->
-        <!--
+    <!-- Load after globalize/number.js and globalize/plural.js-->
+    <!--
         <script src="js/vendor/globalize/dist/globalize/relative-time.js"></script>
         <script src="js/vendor/globalize/dist/globalize/unit.js"></script>
         -->
 
-        <script src="languages/languages.js"></script>
-        <script src="languages/en.js"></script>
-        <script src="languages/es.js"></script>
-        <script src="languages/it.js"></script>
-        <script src="languages/de.js"></script>
-        <script src="languages/fr.js"></script>
-        
-        <script src="js/data/expansions.js"></script>
-        <script src="js/data/mythos-tokens.js"></script>
-        <script src="js/data/scenarios.js"></script>
+    <script src="languages/languages.js"></script>
+    <script src="languages/en.js"></script>
+    <script src="languages/es.js"></script>
+    <script src="languages/it.js"></script>
+    <script src="languages/de.js"></script>
+    <script src="languages/fr.js"></script>
 
-        <script src="js/lib/Language.js"></script>
-        <script src="js/lib/Expansion.js"></script>
-        <script src="js/lib/MythosToken.js"></script>
-        <script src="js/lib/Scenario.js"></script>
-        <script src="js/lib/StoredObject.js"></script>
-        <script src="js/lib/InvestigatorsTokens.js"></script>
-        <script src="js/lib/MythosCup.js"></script>
-        <script src="js/lib/MythosCupMetadata.js"></script>
-        
-        <!--
+    <script src="js/data/expansions.js"></script>
+    <script src="js/data/mythos-tokens.js"></script>
+    <script src="js/data/scenarios.js"></script>
+
+    <script src="js/lib/Language.js"></script>
+    <script src="js/lib/Expansion.js"></script>
+    <script src="js/lib/MythosToken.js"></script>
+    <script src="js/lib/Scenario.js"></script>
+    <script src="js/lib/StoredObject.js"></script>
+    <script src="js/lib/InvestigatorsTokens.js"></script>
+    <script src="js/lib/MythosCup.js"></script>
+    <script src="js/lib/MythosCupMetadata.js"></script>
+
+    <!--
         <script>
             $.when(
                 $.get( "cldr/main/en/ca-gregorian.json" ),
@@ -224,9 +274,10 @@
         </script>
         -->
 
-        <script src="js/options.js"></script>
-        <script src="js/index.js"></script>
+    <script src="js/options.js"></script>
+    <script src="js/index.js"></script>
 
-        <script src="register-service-worker.js"></script>
-    </body>
+    <script src="register-service-worker.js"></script>
+</body>
+
 </html>

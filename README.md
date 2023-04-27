@@ -13,7 +13,7 @@ Features:
 Simulate Mythos Cup.
 
 * MULTILANGUAGE\
-Italiano, English, Español.
+Italiano, English, Español, Deutsch, Français.
 
 * WEB VERSION\
 https://mephitrpg.github.io/arkham-iii-mythos-cup

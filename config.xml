@@ -33,7 +33,7 @@
 	    <preference name="Orientation" value="portrait" />
 
     	<preference name="android-minSdkVersion" value="23" />
-        <preference name="android-targetSdkVersion" value="30" />
+        <preference name="android-targetSdkVersion" value="33" />
 
         <icon src="res/icons/36x36.png" density="ldpi" />
         <icon src="res/icons/48x48.png" density="mdpi" />
