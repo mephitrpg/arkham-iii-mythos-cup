@@ -193,40 +193,6 @@
     <script src="js/vendor/underscore.string/underscore.string.min.js"></script>
     <script src="js/vendor/jquery/jquery-3.6.0.min.js"></script>
 
-    <!--
-        First, we load Globalize's dependencies (`cldrjs` and its supplemental
-        module).
-        -->
-    <!--
-        <script src="js/vendor/cldrjs/dist/cldr.js"></script>
-        <script src="js/vendor/cldrjs/dist/cldr/event.js"></script>
-        <script src="js/vendor/cldrjs/dist/cldr/supplemental.js"></script>
-        -->
-
-    <!--
-        Next, we load Globalize and its modules. Note they are already available on
-        this repository. If it's not, read Usage on Getting Started on the root's
-        README.md.
-        -->
-    <!--
-        <script src="js/vendor/globalize/dist/globalize.js"></script>
-        <script src="js/vendor/globalize/dist/globalize/message.js"></script>
-        <script src="js/vendor/globalize/dist/globalize/number.js"></script>
-        <script src="js/vendor/globalize/dist/globalize/plural.js"></script>
-        -->
-
-    <!-- Load after globalize/number.js -->
-    <!--
-        <script src="js/vendor/globalize/dist/globalize/date.js"></script>
-        <script src="js/vendor/globalize/dist/globalize/currency.js"></script>
-        -->
-
-    <!-- Load after globalize/number.js and globalize/plural.js-->
-    <!--
-        <script src="js/vendor/globalize/dist/globalize/relative-time.js"></script>
-        <script src="js/vendor/globalize/dist/globalize/unit.js"></script>
-        -->
-
     <script src="languages/languages.js"></script>
     <script src="languages/en.js"></script>
     <script src="languages/es.js"></script>
@@ -246,33 +212,6 @@
     <script src="js/lib/InvestigatorsTokens.js"></script>
     <script src="js/lib/MythosCup.js"></script>
     <script src="js/lib/MythosCupMetadata.js"></script>
-
-    <!--
-        <script>
-            $.when(
-                $.get( "cldr/main/en/ca-gregorian.json" ),
-                $.get( "cldr/supplemental/likelySubtags.json" ),
-                $.get( "cldr/supplemental/timeData.json" ),
-                $.get( "cldr/supplemental/weekData.json" )
-            ).then(function() {
-
-                // Normalize $.get results, we only need the JSON, not the request statuses.
-                return [].slice.apply( arguments, [ 0 ] ).map(function( result ) {
-                    return result[ 0 ];
-                });
-
-            }).then( Globalize.load ).then(function() {
-
-                [
-                    "js/options.js",
-                    "js/index.js",
-                ].forEach(script => {
-                    $('<script>').attr({src: "js/options.js"}).appendTo('head');
-                });
-                
-            });
-        </script>
-        -->
 
     <script src="js/options.js"></script>
     <script src="js/index.js"></script>
